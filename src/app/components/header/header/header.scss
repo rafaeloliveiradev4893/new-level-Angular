@@ -1,0 +1,18 @@
+@use '../../../../styles/variables.scss' as *;
+
+.content {
+  position: fixed;
+  flex-direction: row;
+}
+
+.header {
+  top: 0;
+  min-width: 60%;
+  z-index: 1000;
+  height: 50px;
+  background-color: $third-color;
+  border-radius: 25px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
