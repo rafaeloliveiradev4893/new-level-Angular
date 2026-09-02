@@ -1,0 +1,16 @@
+@use '../../../../styles/variables.scss' as *;
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: -20px;
+  margin-bottom: 10px;
+  font-size: $font-size-secondary;
+}
+
+.box {
+  width: 10px;
+  height: 40px;
+  background-color: $text-color;
+}

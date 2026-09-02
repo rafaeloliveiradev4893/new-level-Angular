@@ -1,0 +1,44 @@
+@use '../../../../styles/variables.scss' as *;
+
+/*sidebar*/
+.sidebar {
+  background-color: $third-color;
+  width: 250px;
+  min-height: 100vh;
+  color: $text-color;
+}
+
+.content {
+  margin-left: 20px;
+  padding-top: 10px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 20px;
+}
+
+.logo img {
+  height: 50px;
+  width: 50px;
+  margin-left: -10px;
+}
+
+.logo span {
+  font-size: x-large;
+  font-weight: 800;
+}
+
+/*Menu*/
+
+.menu-txt {
+  font-weight: 600;
+  font-size: $font-size-secondary;
+}
+
+.menu-navegacao {
+  padding-top: 20px;
+}
