@@ -11,10 +11,10 @@
     <p>Error: {{ error.message }}</p>
     }
 
-    <button (click)="auth.loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } })">
+    <button (click)="auth.loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } })" class="signup-button">
       Entrar
     </button>
-    <button (click)="auth.loginWithRedirect()">Cadastrar-se</button>
+    <button (click)="auth.loginWithRedirect()" class="sign-in-button">Cadastrar-se</button>
 
     }
 }

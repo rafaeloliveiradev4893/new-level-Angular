@@ -1,0 +1,12 @@
+@use '../../../../styles/variables.scss' as *;
+
+.signup-button {
+  background-color: rgba($color: $primary-color, $alpha: 0.80);
+  color: $text-color;
+  border-radius: 20px;
+  padding: 18px 0px;
+  width: 90%;
+  font-size: $font-size-primary;
+  font-weight: 600;
+  border: 2px solid rgba($color: $primary-color, $alpha: 0.60);
+}

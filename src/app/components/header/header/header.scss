@@ -2,17 +2,21 @@
 
 .content {
   position: fixed;
+  top: 0;
   flex-direction: row;
 }
 
 .header {
+  position: fixed;
   top: 0;
-  min-width: 60%;
+  right: 0;
+  width: 50%;
   z-index: 1000;
-  height: 50px;
+  height: 60px;
   background-color: $third-color;
   border-radius: 25px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  padding: 0px 60px 0px 60px;
 }
