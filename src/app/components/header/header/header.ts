@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthButton } from "../auth-button/auth-button";
+import { AuthButton } from '../../auth/auth-button/auth-button';
 
 @Component({
   selector: 'app-header',

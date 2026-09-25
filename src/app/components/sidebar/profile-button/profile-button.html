@@ -1,22 +1,23 @@
   @if (auth.isLoading$ | async) {
-  <div>Loading...</div>
-
+  <div class="loading">Carregando...</div>
+} @else {
+  @if ((auth.isAuthenticated$ | async) && (auth.user$ | async); as user) {
+    <div class="profile-container">
+      @if (user.picture) {
+        <img [src]="user.picture" [alt]="user.name || 'Foto de perfil'" class="profile-image" />
+      }
+      <div class="profile-info">
+        <span class="profile-name">{{ user.name || user.nickname || 'Usuário' }}</span>
+        @if (user.email) {
+          <span class="profile-email">{{ user.email }}</span>
+        }
+      </div>
+      <app-logout-button/>
+    </div>
   } @else {
-    @if ((auth.isAuthenticated$ | async) && (auth.user$ | async); as user) {
-
-    <p>Logged in as {{ user.email }}</p>
-    <h1>User Profile</h1>
-    <pre>{{ user | json }}</pre>
-    <button (click)="auth.logout({ logoutParams: { returnTo: window.location.origin } })">Logout</button>
-
-    } @else {
-
     @if (auth.error$ | async; as error) {
-    <p>Error: {{ error.message }}</p>
+      <p class="error">Erro: {{ error.message }}</p>
     }
-
-
-    <button (click)="auth.loginWithRedirect()" class="signup-button">Entrar</button>
-
-    }
+    <app-auth-button/>
   }
+}

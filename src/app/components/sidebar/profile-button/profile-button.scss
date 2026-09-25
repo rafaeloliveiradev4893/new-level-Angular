@@ -1,12 +1,66 @@
 @use '../../../../styles/variables.scss' as *;
 
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 5px;
+  background-color: #ff6b6b;
+  border-radius: 10px;
+}
+
+.profile-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba($color: $primary-color, $alpha: 0.60);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.profile-name {
+  font-size: $font-size-primary;
+  font-weight: 600;
+  color: $text-color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-email {
+  font-size: 13px;
+  color: rgba($color: $text-color, $alpha: 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .signup-button {
   background-color: rgba($color: $primary-color, $alpha: 0.80);
   color: $text-color;
   border-radius: 20px;
-  padding: 18px 0px;
-  width: 90%;
+  padding: 12px 24px;
   font-size: $font-size-primary;
   font-weight: 600;
   border: 2px solid rgba($color: $primary-color, $alpha: 0.60);
+  cursor: pointer;
+  width: 100%;
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: rgba($color: $text-color, $alpha: 0.7);
+}
+
+.error {
+  color: #ff6b6b;
+  padding: 8px;
+  font-size: 14px;
 }
