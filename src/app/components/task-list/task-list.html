@@ -1,0 +1,67 @@
+<div class="task-list-container">
+  <h2>Minhas Tarefas</h2>
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  <form (ngSubmit)="addTask()" class="task-form">
+    <input
+      type="text"
+      [(ngModel)]="newTask().title"
+      name="title"
+      placeholder="Título da tarefa"
+      required
+    />
+    <input
+      type="text"
+      [(ngModel)]="newTask().description"
+      name="description"
+      placeholder="Descrição (opcional)"
+    />
+    <select [(ngModel)]="newTask().category" name="category">
+      @for (cat of categories; track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+    <select [(ngModel)]="newTask().difficulty" name="difficulty">
+      @for (diff of difficulties; track diff) {
+        <option [value]="diff">{{ diff }}</option>
+      }
+    </select>
+    <button type="submit" [disabled]="loading()">Adicionar</button>
+  </form>
+
+  @if (loading() && tasks().length === 0) {
+    <div class="loading">Carregando...</div>
+  } @else {
+    <ul class="task-list">
+      @for (task of tasks(); track task.id) {
+        <li class="task-item" [class.completed]="task.completedAt">
+          <div class="task-info">
+            <span class="task-title" [class.completed]="task.completedAt">{{ task.title }}</span>
+            @if (task.description) {
+              <span class="task-description">{{ task.description }}</span>
+            }
+            <div class="task-meta">
+              <span class="badge category">{{ task.category }}</span>
+              <span class="badge difficulty">{{ task.difficulty }}</span>
+            </div>
+          </div>
+          <div class="task-actions">
+            <button
+              class="btn-toggle"
+              (click)="toggleComplete(task)"
+              [title]="task.completedAt ? 'Marcar como pendente' : 'Marcar como concluída'"
+            >
+              {{ task.completedAt ? '↩' : '✓' }}
+            </button>
+            <button class="btn-delete" (click)="deleteTask(task.id!)">🗑</button>
+          </div>
+        </li>
+      } @empty {
+        <li class="empty">Nenhuma tarefa encontrada</li>
+      }
+    </ul>
+  }
+</div>

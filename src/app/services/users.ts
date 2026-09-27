@@ -11,4 +11,16 @@ export class Users {
   getMe() {
     return this.http.get('http://localhost:8090/api/user/me');
   }
+
+  saveUser() {
+    return this.http.post('http://localhost:8090/api/user', {})
+  }
+
+  updadeUser() {
+    return this.http.put('http://localhost:8090/api/user', {})
+  }
+
+  deleteUser() {
+    return this.http.delete('http://localhost:8090/api/user')
+  }
 }
