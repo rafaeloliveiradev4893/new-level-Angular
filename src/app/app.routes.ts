@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
+import { HomePage } from './pages/home-page/home-page';
 
 export const routes: Routes = [
-  { path: 'tasks', loadComponent: () => import('./components/task-list/task-list').then(m => m.TaskList) },
-  { path: '', redirectTo: 'tasks', pathMatch: 'full' },
+  {
+    path: '',
+    component: HomePage
+  }
 ];

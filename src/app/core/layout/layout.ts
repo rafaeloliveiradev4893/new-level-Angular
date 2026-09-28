@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Header } from '../../header/header/header';
 import { Sidebar } from './components/sidebar/sidebar/sidebar';
+import { Header } from './components/header/header';
 
 @Component({
   selector: 'app-layout',

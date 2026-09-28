@@ -1,15 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Sidebar } from "./components/core/layout/components/sidebar/sidebar/sidebar";
-import { Header } from "./components/header/header/header";
-import { Users } from './services/users';
+import { Users } from './services/user/users';
 import { AuthService } from '@auth0/auth0-angular';
-import { TaskList } from './components/task-list/task-list';
-import { UserInfo } from './components/user/user-info/user-info';
+import { Layout } from './core/layout/layout';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sidebar, Header, TaskList, UserInfo],
+  imports: [RouterOutlet, Layout],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApiTask } from '../../services/api/api-task';
-import { Task } from '../../model/task-model';
-import { Category } from '../../enums/category';
-import { Difficulty } from '../../enums/difficulty';
+import { ApiTask } from '../../../services/task/api-task';
+import { Task } from '../../../model/task-model';
+import { Category } from '../../../enums/category';
+import { Difficulty } from '../../../enums/difficulty';
 
 @Component({
   selector: 'app-task-list',
