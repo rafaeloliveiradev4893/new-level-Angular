@@ -1,1 +1,8 @@
-<p>user-info works!</p>
+@if (user) {
+  <div>
+    <h2>{{ user.name }}</h2>
+    <p>Level: {{ user.level }}</p>
+    <p>XP: {{ user.currentXp }}</p>
+    <p>Member since: {{ user.createdAt }}</p>
+  </div>
+}

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
+import { User } from '../../../model/user-model';
+import { Users } from '../../../services/users';
 
 @Component({
   selector: 'app-user-info',
@@ -6,4 +8,19 @@ import { Component } from '@angular/core';
   templateUrl: './user-info.html',
   styleUrl: './user-info.scss',
 })
-export class UserInfo {}
+export class UserInfo implements OnInit {
+  user?: User;
+
+  private apiUser = inject(Users);
+
+  ngOnInit(): void {
+    this.apiUser.getMe().subscribe({
+      next: (user) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Erro ao buscar usuário:', error);
+      }
+    });
+  }
+}

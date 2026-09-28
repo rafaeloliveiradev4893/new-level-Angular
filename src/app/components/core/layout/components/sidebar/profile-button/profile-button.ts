@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { CommonModule } from '@angular/common';
-import { LogoutButton } from '../../auth/logout-button/logout-button';
-import { AuthButton } from '../../auth/auth-button/auth-button';
+import { LogoutButton } from '../../../../auth/logout-button/logout-button';
+import { AuthButton } from '../../../../auth/auth-button/auth-button';
 
 @Component({
   selector: 'app-profile-button',

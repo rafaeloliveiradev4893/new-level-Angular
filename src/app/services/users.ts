@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../model/user-model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ export class Users {
   private http = inject(HttpClient);
 
   getMe() {
-    return this.http.get('http://localhost:8090/api/user/me');
+    return this.http.get<User>('http://localhost:8090/api/user/me');
   }
 
   saveUser() {

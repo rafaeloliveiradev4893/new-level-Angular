@@ -1,4 +1,6 @@
 export interface User {
-  nome: string;
-  email: string;
+  name: string,
+  level: number,
+  currentXp: number,
+  createdAt: string,
 }
