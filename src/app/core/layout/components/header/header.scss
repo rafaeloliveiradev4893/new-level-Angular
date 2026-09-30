@@ -17,9 +17,14 @@
   background-color: $third-color;
   border-radius: 25px;
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
   padding: 0px 60px 0px 60px;
+}
+
+.header-actions{
+  display: flex;
+  gap: 10px;
 }
 
 .welcome {
