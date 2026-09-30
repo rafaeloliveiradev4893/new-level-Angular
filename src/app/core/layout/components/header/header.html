@@ -1,7 +1,9 @@
 <div class="content">
 
   <div class="welcome">
-    <span>Bem-vindo de volta, Rafael.</span>
+    @if (userInf) {
+      <span>Bem-vindo de volta, {{userInf.name}}.</span>
+    }
     <span>O que você vai conquistar hoje?</span>
   </div>
 
