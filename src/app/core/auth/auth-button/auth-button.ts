@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { CommonModule } from '@angular/common';
+import { User } from '../../../model/user-model';
+import { Users } from '../../../services/user/users';
 
 @Component({
   selector: 'app-auth-button',
@@ -9,6 +10,20 @@ import { CommonModule } from '@angular/common';
   templateUrl: './auth-button.html',
   styleUrl: './auth-button.scss',
 })
-export class AuthButton {
+export class AuthButton implements OnInit{
   protected auth = inject(AuthService);
+  private apiUser = inject(Users);
+
+  userInf?: User;
+
+  ngOnInit(): void {
+    this.apiUser.getMe().subscribe({
+      next: (user) => {
+        this.userInf = user;
+      },
+      error: (error) => {
+        console.error('Erro ao buscar usuário:', error);
+      }
+    });
+  }
 }

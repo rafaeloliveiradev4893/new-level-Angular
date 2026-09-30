@@ -3,7 +3,8 @@
 } @else {
   @if ((auth.isAuthenticated$ | async) && (auth.user$ | async); as user) {
 
-    <span>logado</span>
+    <p>{{ userInf.name }}</p>
+    <p>Level: {{ userInf.level }}</p>
 
   } @else {
 
