@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { AuthButton } from '../../../auth/auth-button/auth-button';
 
 @Component({
@@ -7,4 +7,12 @@ import { AuthButton } from '../../../auth/auth-button/auth-button';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {}
+export class Header {
+  sidebar = input.required<{ toggle: () => void; isOpen: () => boolean }>();
+  menuToggle = output<void>();
+
+  onMenuClick() {
+    this.sidebar().toggle();
+    this.menuToggle.emit();
+  }
+}

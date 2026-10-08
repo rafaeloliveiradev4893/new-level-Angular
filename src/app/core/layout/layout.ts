@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { Sidebar } from './components/sidebar/sidebar/sidebar';
 import { Header } from './components/header/header';
 
@@ -8,4 +8,6 @@ import { Header } from './components/header/header';
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })
-export class Layout {}
+export class Layout {
+  sidebar = viewChild.required(Sidebar);
+}

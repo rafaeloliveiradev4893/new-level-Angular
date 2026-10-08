@@ -1,7 +1,9 @@
 <main class="main">
-  <app-sidebar/>
+  <app-sidebar #sidebar />
   <div class="container">
-    <app-header/>
-    <ng-content></ng-content>
+    <app-header [sidebar]="sidebar" />
+    <div class="main-content">
+      <ng-content></ng-content>
+    </div>
   </div>
 </main>

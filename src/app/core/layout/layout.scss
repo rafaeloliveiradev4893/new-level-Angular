@@ -1,9 +1,65 @@
+@use '../../../styles/variables.scss' as *;
+
 .main {
   display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  flex-shrink: 0;
+  transition: width 0.3s ease, transform 0.3s ease;
 }
 
 .container {
+  flex: 1;
   display: flex;
-  padding-top: 80px;
-  padding-left: 20px;
+  flex-direction: column;
+  min-width: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  padding-top: 100px;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 100;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .container {
+    margin-left: 0;
+  }
+
+  .main-content {
+    padding-top: 90px;
+    padding: 16px;
+    padding-top: 90px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 12px;
+    padding-top: 85px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .sidebar {
+    position: relative;
+    transform: none;
+  }
 }
