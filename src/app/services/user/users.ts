@@ -1,27 +1,28 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../model/user-model';
+import { User, UserRequest } from '../../model/user-model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Users {
-
   private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:8080/api/user';
 
-  getMe() {
-    return this.http.get<User>('http://localhost:8090/api/user/me');
+  getMe(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/me`);
   }
 
-  saveUser() {
-    return this.http.post('http://localhost:8090/api/user', {})
+  saveUser(user: UserRequest = {}): Observable<User> {
+    return this.http.post<User>(this.apiUrl, user);
   }
 
-  updadeUser() {
-    return this.http.put('http://localhost:8090/api/user', {})
+  updateUser(user: UserRequest): Observable<User> {
+    return this.http.patch<User>(this.apiUrl, user);
   }
 
-  deleteUser() {
-    return this.http.delete('http://localhost:8090/api/user')
+  deleteUser(): Observable<void> {
+    return this.http.delete<void>(this.apiUrl);
   }
 }

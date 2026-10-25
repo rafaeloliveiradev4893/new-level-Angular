@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiTask } from '../../../services/task/api-task';
-import { Task } from '../../../model/task-model';
+import { Task, TaskRequest } from '../../../model/task-model';
 import { Category } from '../../../enums/category';
 import { Difficulty } from '../../../enums/difficulty';
 import { TaskCard } from '../task-card/task-card';
@@ -28,9 +28,8 @@ export class TaskList implements OnInit {
   error = signal<string | null>(null);
   taskFormOpen = signal(false);
 
-  newTask = signal<Partial<Task>>({
+  newTask = signal<TaskRequest>({
     title: '',
-    description: '',
     category: Category.Undefined,
     difficulty: Difficulty.Easy,
   });
@@ -69,13 +68,17 @@ export class TaskList implements OnInit {
 
   addTask(): void {
     const task = this.newTask();
-    if (!task.title?.trim()) return;
+    if (!task.title.trim()) return;
 
     this.loading.set(true);
     this.apiTask.addTask(task).subscribe({
       next: (created) => {
         this.tasks.update((t) => [...t, created]);
-        this.newTask.set({ title: '', description: '', category: Category.Undefined, difficulty: Difficulty.Easy });
+        this.newTask.set({
+          title: '',
+          category: Category.Undefined,
+          difficulty: Difficulty.Easy,
+        });
         this.loading.set(false);
         this.closeTaskForm();
       },
@@ -88,7 +91,7 @@ export class TaskList implements OnInit {
   }
 
   toggleComplete(task: Task): void {
-    this.apiTask.completTask(task.id!, task).subscribe({
+    this.apiTask.completeTask(task.id).subscribe({
       next: (updated) => {
         this.tasks.update((t) => t.map((tk) => (tk.id === updated.id ? updated : tk)));
       },
