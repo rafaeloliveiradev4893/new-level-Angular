@@ -15,8 +15,8 @@
     }
 
     <div class="event-meta">
-      <span>{{ event.category }}</span>
-      <span>{{ event.difficulty }}</span>
+      <span>{{ categoryLabel(event.category) }}</span>
+      <span>{{ difficultyLabel(event.difficulty) }}</span>
     </div>
 
     @if (event.completedAt) {

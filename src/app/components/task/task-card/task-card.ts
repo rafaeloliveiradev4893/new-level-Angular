@@ -1,8 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideCheck, lucideTrash2 } from '@ng-icons/lucide';
+import { lucideCheck, lucidePencil, lucideTrash2 } from '@ng-icons/lucide';
 import { Task } from '../../../model/task-model';
+import type { Subtask } from '../../../model/subtask-model';
+import {
+  categoryLabel as getCategoryLabel,
+  difficultyLabel as getDifficultyLabel,
+} from '../../../utils/enum-labels';
 
 export interface SubtaskAction {
   taskId: number;
@@ -12,16 +17,25 @@ export interface SubtaskAction {
 @Component({
   selector: 'app-task-card',
   imports: [DatePipe, NgIcon],
-  providers: [provideIcons({ lucideCheck, lucideTrash2 })],
+  providers: [provideIcons({ lucideCheck, lucidePencil, lucideTrash2 })],
   templateUrl: './task-card.html',
   styleUrl: './task-card.scss',
 })
 export class TaskCard {
   @Input({ required: true }) task!: Task;
   @Output() completionToggled = new EventEmitter<Task>();
+  @Output() editRequested = new EventEmitter<Task>();
   @Output() deletionRequested = new EventEmitter<number>();
   @Output() subtaskCompletionRequested = new EventEmitter<SubtaskAction>();
+  @Output() subtaskEditRequested = new EventEmitter<Subtask>();
   @Output() subtaskDeletionRequested = new EventEmitter<SubtaskAction>();
+
+  categoryLabel = getCategoryLabel;
+  difficultyLabel = getDifficultyLabel;
+
+  editTask(): void {
+    this.editRequested.emit(this.task);
+  }
 
   toggleCompletion(): void {
     if (!this.task.isCompleted) {
@@ -40,6 +54,10 @@ export class TaskCard {
       taskId: this.task.id,
       subtaskId,
     });
+  }
+
+  editSubtask(subtask: Subtask): void {
+    this.subtaskEditRequested.emit(subtask);
   }
 
   deleteSubtask(subtaskId: number): void {

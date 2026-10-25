@@ -13,8 +13,10 @@
         <app-task-card
           [task]="task"
           (completionToggled)="toggleComplete($event)"
+          (editRequested)="editTask($event)"
           (deletionRequested)="deleteTask($event)"
           (subtaskCompletionRequested)="completeSubtask($event)"
+          (subtaskEditRequested)="editSubtask(task.id, $event)"
           (subtaskDeletionRequested)="deleteSubtask($event)"
         />
       } @empty {
@@ -37,7 +39,9 @@
     >
       <section class="task-modal" (click)="$event.stopPropagation()">
         <div class="modal-heading">
-          <h2 id="task-form-title">Adicionar tarefa</h2>
+          <h2 id="task-form-title">
+            {{ editingTaskId() === null ? 'Adicionar tarefa' : 'Editar tarefa' }}
+          </h2>
           <button
             class="close-modal-button"
             type="button"
@@ -52,7 +56,7 @@
           <div class="error app-error-message" role="alert">{{ error() }}</div>
         }
 
-        <form (ngSubmit)="addTask()" class="task-form">
+        <form (ngSubmit)="saveTask()" class="task-form">
           <label class="form-field">
             <span>Título</span>
             <input
@@ -84,7 +88,7 @@
             <span>Categoria</span>
             <select [(ngModel)]="newTask().category" name="category" required>
               @for (cat of categories; track cat) {
-                <option [value]="cat">{{ cat }}</option>
+                <option [value]="cat">{{ categoryLabel(cat) }}</option>
               }
             </select>
           </label>
@@ -92,52 +96,107 @@
             <span>Dificuldade</span>
             <select [(ngModel)]="newTask().difficulty" name="difficulty" required>
               @for (diff of difficulties; track diff) {
-                <option [value]="diff">{{ diff }}</option>
+                <option [value]="diff">{{ difficultyLabel(diff) }}</option>
               }
             </select>
           </label>
 
-          <fieldset class="subtask-fields">
-            <legend>Subtarefas <span>(opcional)</span></legend>
-            @for (title of subtaskTitles(); track $index; let i = $index) {
+          @if (editingTaskId() === null) {
+            <fieldset class="subtask-fields">
+              <legend>Subtarefas <span>(opcional)</span></legend>
+              @for (title of subtaskTitles(); track $index; let i = $index) {
+                <div class="subtask-input-row">
+                  <input
+                    type="text"
+                    [ngModel]="title"
+                    (ngModelChange)="updateSubtaskTitle(i, $event)"
+                    [name]="'subtask-' + i"
+                    [attr.aria-label]="'Título da subtarefa ' + (i + 1)"
+                    placeholder="Título da subtarefa"
+                  />
+                  <button
+                    class="remove-subtask-button"
+                    type="button"
+                    [attr.aria-label]="'Remover subtarefa ' + (i + 1)"
+                    (click)="removeSubtaskField(i)"
+                  >
+                    &times;
+                  </button>
+                </div>
+              }
               <div class="subtask-input-row">
                 <input
                   type="text"
-                  [ngModel]="title"
-                  (ngModelChange)="updateSubtaskTitle(i, $event)"
-                  [name]="'subtask-' + i"
-                  [attr.aria-label]="'Título da subtarefa ' + (i + 1)"
-                  placeholder="Título da subtarefa"
+                  [(ngModel)]="newSubtaskTitle"
+                  name="newSubtask"
+                  placeholder="Nova subtarefa"
                 />
                 <button
-                  class="remove-subtask-button"
+                  class="add-subtask-button"
                   type="button"
-                  [attr.aria-label]="'Remover subtarefa ' + (i + 1)"
-                  (click)="removeSubtaskField(i)"
+                  (click)="addSubtaskField()"
+                  [disabled]="!newSubtaskTitle.trim()"
                 >
-                  &times;
+                  Adicionar
                 </button>
               </div>
-            }
-            <div class="subtask-input-row">
-              <input
-                type="text"
-                [(ngModel)]="newSubtaskTitle"
-                name="newSubtask"
-                placeholder="Nova subtarefa"
-              />
-              <button
-                class="add-subtask-button"
-                type="button"
-                (click)="addSubtaskField()"
-                [disabled]="!newSubtaskTitle.trim()"
-              >
-                Adicionar
-              </button>
-            </div>
-          </fieldset>
+            </fieldset>
+          }
 
-          <button type="submit" [disabled]="loading()">Adicionar</button>
+          <button type="submit" [disabled]="loading()">
+            {{ loading() ? 'Salvando...' : editingTaskId() === null ? 'Adicionar' : 'Salvar alterações' }}
+          </button>
+        </form>
+      </section>
+    </div>
+  }
+
+  @if (editingSubtask(); as subtask) {
+    <div
+      class="modal-backdrop"
+      role="presentation"
+      (click)="closeSubtaskEditor()"
+      (window:keydown.escape)="closeSubtaskEditor()"
+    >
+      <section
+        class="task-modal subtask-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="subtask-form-title"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="modal-heading">
+          <h2 id="subtask-form-title">Editar subtarefa</h2>
+          <button
+            class="close-modal-button"
+            type="button"
+            aria-label="Fechar formulário"
+            (click)="closeSubtaskEditor()"
+          >
+            &times;
+          </button>
+        </div>
+
+        @if (subtaskEditError()) {
+          <div class="app-error-message" role="alert">{{ subtaskEditError() }}</div>
+        }
+
+        <form class="task-form" (ngSubmit)="saveSubtask()">
+          <label class="form-field">
+            <span>Título</span>
+            <input
+              type="text"
+              [ngModel]="subtaskEditTitle()"
+              (ngModelChange)="subtaskEditTitle.set($event)"
+              name="subtaskTitle"
+              required
+              maxlength="150"
+              autofocus
+            />
+          </label>
+          <button type="submit" [disabled]="savingSubtask() || !subtaskEditTitle().trim()">
+            {{ savingSubtask() ? 'Salvando...' : 'Salvar alterações' }}
+          </button>
         </form>
       </section>
     </div>

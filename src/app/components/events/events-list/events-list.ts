@@ -21,6 +21,10 @@ import { Difficulty } from '../../../enums/difficulty';
 import { EventsCard } from '../events-card/events-card';
 import { XpNotification } from '../../../services/xp-notification';
 import { getApiErrorMessage } from '../../../utils/api-error-message';
+import {
+  categoryLabel as getCategoryLabel,
+  difficultyLabel as getDifficultyLabel,
+} from '../../../utils/enum-labels';
 
 @Component({
   selector: 'app-events-list',
@@ -50,6 +54,8 @@ export class EventsList implements OnInit, OnChanges {
 
   categories = Object.values(Category);
   difficulties = Object.values(Difficulty);
+  categoryLabel = getCategoryLabel;
+  difficultyLabel = getDifficultyLabel;
 
   get selectedDateLabel(): string {
     const [year, month, day] = this.selectedDate.split('-').map(Number);

@@ -34,4 +34,13 @@ describe('EventsCard', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display category and difficulty in Portuguese', () => {
+    fixture.detectChanges();
+    const category = fixture.nativeElement.querySelector('.event-meta span');
+    const difficulty = fixture.nativeElement.querySelectorAll('.event-meta span')[1];
+
+    expect(category.textContent.trim()).toBe('Sem categoria');
+    expect(difficulty.textContent.trim()).toBe('Fácil');
+  });
 });

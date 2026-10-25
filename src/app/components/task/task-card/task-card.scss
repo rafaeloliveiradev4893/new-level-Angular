@@ -9,7 +9,14 @@
 
 .top {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
+
+  > div:first-child {
+    flex: 1;
+    min-width: 0;
+  }
 }
 
 .task-card {

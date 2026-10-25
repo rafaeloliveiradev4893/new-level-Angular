@@ -11,6 +11,11 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePlus } from '@ng-icons/lucide';
 import { XpNotification } from '../../../services/xp-notification';
 import { getApiErrorMessage } from '../../../utils/api-error-message';
+import type { Subtask } from '../../../model/subtask-model';
+import {
+  categoryLabel as getCategoryLabel,
+  difficultyLabel as getDifficultyLabel,
+} from '../../../utils/enum-labels';
 
 @Component({
   selector: 'app-task-list',
@@ -32,6 +37,11 @@ export class TaskList implements OnInit {
   loading = signal(false);
   error = signal<string | null>(null);
   taskFormOpen = signal(false);
+  editingTaskId = signal<number | null>(null);
+  editingSubtask = signal<{ taskId: number; subtaskId: number } | null>(null);
+  subtaskEditTitle = signal('');
+  subtaskEditError = signal<string | null>(null);
+  savingSubtask = signal(false);
 
   newTask = signal<TaskRequest>({
     title: '',
@@ -45,6 +55,8 @@ export class TaskList implements OnInit {
 
   categories = Object.values(Category);
   difficulties = Object.values(Difficulty);
+  categoryLabel = getCategoryLabel;
+  difficultyLabel = getDifficultyLabel;
 
   ngOnInit(): void {
     this.loadTasks();
@@ -52,6 +64,22 @@ export class TaskList implements OnInit {
 
   openTaskForm(): void {
     this.error.set(null);
+    this.editingTaskId.set(null);
+    this.resetTaskForm();
+    this.taskFormOpen.set(true);
+  }
+
+  editTask(task: Task): void {
+    this.error.set(null);
+    this.editingTaskId.set(task.id);
+    this.newTask.set({
+      title: task.title,
+      description: task.description ?? '',
+      dueDate: task.dueDate,
+      category: task.category,
+      difficulty: task.difficulty,
+    });
+    this.subtaskTitles.set([]);
     this.taskFormOpen.set(true);
   }
 
@@ -93,33 +121,48 @@ export class TaskList implements OnInit {
     });
   }
 
-  addTask(): void {
+  saveTask(): void {
     const task = this.newTask();
     if (!task.title.trim()) return;
 
-    const description = task.description?.trim();
-    const subtasks = this.subtaskTitles()
-      .map((title) => title.trim())
-      .filter(Boolean);
     const request: TaskRequest = {
       title: task.title.trim(),
       category: task.category,
       difficulty: task.difficulty,
-      ...(description ? { description } : {}),
-      ...(task.dueDate ? { dueDate: task.dueDate } : {}),
-      ...(subtasks.length ? { subtasks: subtasks.map((title) => ({ title })) } : {}),
+      description: task.description?.trim() || null,
+      dueDate: task.dueDate || null,
     };
+    const subtasks = this.subtaskTitles()
+      .map((title) => title.trim())
+      .filter(Boolean);
+    if (this.editingTaskId() === null && subtasks.length) {
+      request.subtasks = subtasks.map((title) => ({ title }));
+    }
 
     this.loading.set(true);
-    this.apiTask.addTask(request).subscribe({
-      next: (created) => {
-        this.tasks.update((t) => [...t, created]);
+    const taskId = this.editingTaskId();
+    const save$ =
+      taskId === null
+        ? this.apiTask.addTask(request)
+        : this.apiTask.changeTask(taskId, request);
+    save$.subscribe({
+      next: (savedTask) => {
+        if (taskId === null) {
+          this.tasks.update((tasks) => [...tasks, savedTask]);
+        } else {
+          this.replaceTask(savedTask);
+        }
         this.resetTaskForm();
         this.loading.set(false);
         this.closeTaskForm();
       },
       error: (err) => {
-        this.error.set(getApiErrorMessage(err, 'Erro ao criar tarefa.'));
+        this.error.set(
+          getApiErrorMessage(
+            err,
+            taskId === null ? 'Erro ao criar tarefa.' : 'Erro ao editar tarefa.',
+          ),
+        );
         this.loading.set(false);
         console.error(err);
       },
@@ -194,6 +237,44 @@ export class TaskList implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  editSubtask(taskId: number, subtask: Subtask): void {
+    this.subtaskEditError.set(null);
+    this.subtaskEditTitle.set(subtask.title);
+    this.editingSubtask.set({ taskId, subtaskId: subtask.id });
+  }
+
+  closeSubtaskEditor(): void {
+    if (!this.savingSubtask()) {
+      this.editingSubtask.set(null);
+      this.subtaskEditError.set(null);
+    }
+  }
+
+  saveSubtask(): void {
+    const editing = this.editingSubtask();
+    const title = this.subtaskEditTitle().trim();
+    if (!editing || !title) return;
+
+    this.savingSubtask.set(true);
+    this.subtaskEditError.set(null);
+    this.apiTask
+      .updateSubtask(editing.taskId, editing.subtaskId, { title })
+      .subscribe({
+        next: (updated) => {
+          this.replaceTask(updated);
+          this.savingSubtask.set(false);
+          this.editingSubtask.set(null);
+        },
+        error: (err) => {
+          this.subtaskEditError.set(
+            getApiErrorMessage(err, 'Erro ao editar subtarefa.'),
+          );
+          this.savingSubtask.set(false);
+          console.error(err);
+        },
+      });
   }
 
   deleteSubtask({ taskId, subtaskId }: SubtaskAction): void {

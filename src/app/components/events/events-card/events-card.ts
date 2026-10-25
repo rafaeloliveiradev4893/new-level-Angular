@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Event as CalendarEvent } from '../../../model/event-model';
+import {
+  categoryLabel as getCategoryLabel,
+  difficultyLabel as getDifficultyLabel,
+} from '../../../utils/enum-labels';
 
 @Component({
   selector: 'app-events-card',
@@ -13,6 +17,9 @@ export class EventsCard {
   @Output() editRequested = new EventEmitter<CalendarEvent>();
   @Output() completionRequested = new EventEmitter<CalendarEvent>();
   @Output() deletionRequested = new EventEmitter<number>();
+
+  categoryLabel = getCategoryLabel;
+  difficultyLabel = getDifficultyLabel;
 
   get timeRange(): string {
     const start = new Date(this.event.startDate);
