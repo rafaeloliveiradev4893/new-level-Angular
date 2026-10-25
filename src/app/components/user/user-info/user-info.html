@@ -1,22 +1,22 @@
 <section class="user-card" aria-labelledby="user-name">
-  @if (loading) {
+  @if (loading()) {
     <p class="status-message" role="status">Carregando perfil...</p>
-  } @else if (error) {
-    <p class="status-message error" role="alert">{{ error }}</p>
-  } @else if (user) {
+  } @else if (error()) {
+    <p class="status-message error" role="alert">{{ error() }}</p>
+  } @else if (user(); as u) {
     <header class="user-header">
       <div class="user-avatar" aria-hidden="true">
-        {{ user.name?.charAt(0)?.toUpperCase() || 'U' }}
+        {{ u.name?.charAt(0)?.toUpperCase() || 'U' }}
       </div>
       <div class="user-heading">
         <p class="eyebrow">Seu perfil</p>
-        <h2 id="user-name">{{ user.name || 'Aventureiro' }}</h2>
+        <h2 id="user-name">{{ u.name || 'Aventureiro' }}</h2>
       </div>
     </header>
 
     <div class="user-level">
       <span class="stat-label">Nível geral</span>
-      <strong class="stat-value">{{ user.level }}</strong>
+      <strong class="stat-value">{{ u.level }}</strong>
     </div>
 
     <section class="attributes" aria-labelledby="attributes-heading">
@@ -28,11 +28,11 @@
             <div class="attribute-values">
               <span>
                 <span class="attribute-label">Nível</span>
-                <strong>{{ user.atributos[attribute.key] }}</strong>
+                <strong>{{ u.atributos[attribute.key] }}</strong>
               </span>
               <span>
                 <span class="attribute-label">XP</span>
-                <strong>{{ user.atributosXp[attribute.key] }}</strong>
+                <strong>{{ u.atributosXp[attribute.key] }}</strong>
               </span>
             </div>
           </article>

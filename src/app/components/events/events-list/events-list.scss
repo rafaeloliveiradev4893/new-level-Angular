@@ -1,0 +1,230 @@
+@use '../../../../styles/variables.scss' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.events-list {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: clamp(14px, 2vw, 24px);
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.28);
+  border-radius: 16px;
+  color: $text-color;
+  background-color: $third-color;
+  height: 100%;
+}
+
+.list-header,
+.day-selector,
+.day-arrows {
+  display: flex;
+  align-items: center;
+}
+
+.list-header {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.day-selector {
+  min-width: 0;
+  gap: 10px;
+
+  h2 {
+    margin: 0;
+    font-size: clamp(17px, 2.5vw, 21px);
+    text-transform: capitalize;
+    overflow-wrap: anywhere;
+  }
+}
+
+.day-arrows {
+  flex: 0 0 auto;
+  gap: 4px;
+
+  button {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid rgba($color: $secondary-color, $alpha: 0.45);
+    border-radius: 8px;
+    color: $text-color;
+    background-color: rgba($color: $secondary-color, $alpha: 0.14);
+    font-size: 24px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background-color: rgba($color: $secondary-color, $alpha: 0.38);
+    }
+  }
+}
+
+.add-event-button,
+.save-event-button {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  color: $text-color;
+  background-color: $secondary-color;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($color: $secondary-color, $alpha: 0.82);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty-day,
+.list-status {
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed rgba($color: $secondary-color, $alpha: 0.32);
+  border-radius: 10px;
+  color: rgba($color: $text-color, $alpha: 0.65);
+  text-align: center;
+}
+
+.list-status {
+  border: 0;
+}
+
+.list-error {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba($color: #ff7777, $alpha: 0.5);
+  border-radius: 8px;
+  color: #ffaaaa;
+  background-color: rgba($color: #ff7777, $alpha: 0.08);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  padding: 16px;
+  background-color: rgba(0, 0, 0, 0.68);
+}
+
+.event-modal {
+  width: min(100%, 520px);
+  max-height: calc(100vh - 32px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  padding: clamp(18px, 3vw, 26px);
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.38);
+  border-radius: 14px;
+  color: $text-color;
+  background-color: $third-color;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+}
+
+@supports (height: 100dvh) {
+  .event-modal {
+    max-height: calc(100dvh - 32px);
+  }
+}
+
+.modal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+  }
+}
+
+.close-button {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 8px;
+  color: $text-color;
+  background: transparent;
+  font-size: 26px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($color: $secondary-color, $alpha: 0.2);
+  }
+}
+
+.event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: rgba($color: $text-color, $alpha: 0.8);
+    font-size: 14px;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid rgba($color: $secondary-color, $alpha: 0.4);
+    border-radius: 8px;
+    color: $text-color;
+    background-color: $primary-color;
+    font: inherit;
+  }
+}
+
+.date-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 520px) {
+  .events-list {
+    padding: 12px;
+  }
+
+  .list-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .add-event-button {
+    width: 100%;
+  }
+
+  .date-fields {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,9 +1,16 @@
 @use '../../../styles/variables.scss' as *;
 
-h1 {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  color: $text-color;
-  font-size: clamp(26px, 4vw, 36px);
-}
+.task-page {
+  width: 100%;
+  max-width: $content-max-width;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 1rem;
 
+  h1 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: $text-color;
+  }
+}

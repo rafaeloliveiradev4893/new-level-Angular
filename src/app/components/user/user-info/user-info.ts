@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { User } from '../../../model/user-model';
 import { Users } from '../../../services/user/users';
 
@@ -20,19 +20,19 @@ export class UserInfo implements OnInit {
     { key: 'carisma', label: 'Carisma' },
   ];
 
-  user: User | null = null;
-  loading = true;
-  error: string | null = null;
+  user = signal<User | null>(null);
+  loading = signal(true);
+  error = signal<string | null>(null);
 
   ngOnInit(): void {
     this.apiUser.getMe().subscribe({
       next: (user) => {
-        this.user = user;
-        this.loading = false;
+        this.user.set(user);
+        this.loading.set(false);
       },
       error: (error) => {
-        this.error = 'Não foi possível carregar as informações do perfil.';
-        this.loading = false;
+        this.error.set('Não foi possível carregar as informações do perfil.');
+        this.loading.set(false);
         console.error('Erro ao buscar usuário:', error);
       },
     });

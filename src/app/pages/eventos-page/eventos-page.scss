@@ -7,4 +7,24 @@
   box-sizing: border-box;
   margin: 0 auto;
   padding: 1rem;
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: $text-color;
+  }
+}
+
+.events-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, 1fr);
+  align-items: start;
+  gap: 20px;
+  min-width: 0;
+}
+
+@media (max-width: 1000px) {
+  .events-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

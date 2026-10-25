@@ -1,0 +1,146 @@
+<section class="events-list" aria-labelledby="events-list-heading">
+  <header class="list-header">
+    <div class="day-selector">
+      <h2 id="events-list-heading">{{ selectedDateLabel }}</h2>
+      <div class="day-arrows" aria-label="Selecionar dia">
+        <button
+          type="button"
+          aria-label="Dia anterior"
+          title="Dia anterior"
+          (click)="previousDay()"
+        >
+          &#8249;
+        </button>
+        <button
+          type="button"
+          aria-label="Próximo dia"
+          title="Próximo dia"
+          (click)="nextDay()"
+        >
+          &#8250;
+        </button>
+      </div>
+    </div>
+    <button class="add-event-button" type="button" (click)="openCreateForm()">
+      + Criar evento
+    </button>
+  </header>
+
+  @if (error()) {
+    <p class="list-error" role="alert">{{ error() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="list-status" role="status">Carregando eventos...</p>
+  } @else if (events().length) {
+    <div class="event-list">
+      @for (event of events(); track event.id) {
+        <app-events-card
+          [event]="event"
+          (editRequested)="editEvent($event)"
+          (completionRequested)="completeEvent($event)"
+          (deletionRequested)="deleteEvent($event)"
+        />
+      }
+    </div>
+  } @else {
+    <p class="empty-day">Nenhum evento neste dia.</p>
+  }
+
+  @if (eventFormOpen()) {
+    <div
+      class="modal-backdrop"
+      role="presentation"
+      (click)="closeForm()"
+      (window:keydown.escape)="closeForm()"
+    >
+      <section
+        class="event-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="event-form-title"
+        (click)="$event.stopPropagation()"
+      >
+        <header class="modal-heading">
+          <h2 id="event-form-title">
+            {{ editingEventId() === null ? 'Novo evento' : 'Editar evento' }}
+          </h2>
+          <button
+            type="button"
+            class="close-button"
+            aria-label="Fechar formulário"
+            (click)="closeForm()"
+          >
+            &times;
+          </button>
+        </header>
+
+        @if (error()) {
+          <p class="list-error" role="alert">{{ error() }}</p>
+        }
+
+        <form class="event-form" (ngSubmit)="saveEvent()">
+          <label>
+            <span>Título</span>
+            <input
+              type="text"
+              [(ngModel)]="eventForm().title"
+              name="title"
+              required
+              maxlength="150"
+              placeholder="Nome do evento"
+            />
+          </label>
+          <label>
+            <span>Descrição</span>
+            <textarea
+              [(ngModel)]="eventForm().description"
+              name="description"
+              rows="3"
+              placeholder="Descrição (opcional)"
+            ></textarea>
+          </label>
+          <div class="date-fields">
+            <label>
+              <span>Início</span>
+              <input
+                type="datetime-local"
+                [(ngModel)]="eventForm().startDate"
+                name="startDate"
+                required
+              />
+            </label>
+            <label>
+              <span>Término</span>
+              <input
+                type="datetime-local"
+                [(ngModel)]="eventForm().endDate"
+                name="endDate"
+                required
+              />
+            </label>
+          </div>
+          <label>
+            <span>Categoria</span>
+            <select [(ngModel)]="eventForm().category" name="category" required>
+              @for (category of categories; track category) {
+                <option [value]="category">{{ category }}</option>
+              }
+            </select>
+          </label>
+          <label>
+            <span>Dificuldade</span>
+            <select [(ngModel)]="eventForm().difficulty" name="difficulty" required>
+              @for (difficulty of difficulties; track difficulty) {
+                <option [value]="difficulty">{{ difficulty }}</option>
+              }
+            </select>
+          </label>
+          <button class="save-event-button" type="submit" [disabled]="saving()">
+            {{ saving() ? 'Salvando...' : 'Salvar evento' }}
+          </button>
+        </form>
+      </section>
+    </div>
+  }
+</section>
