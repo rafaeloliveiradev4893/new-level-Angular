@@ -9,6 +9,7 @@ import { TaskCard } from '../task-card/task-card';
 import type { SubtaskAction } from '../task-card/task-card';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePlus } from '@ng-icons/lucide';
+import { XpNotification } from '../../../services/xp-notification';
 
 @Component({
   selector: 'app-task-list',
@@ -23,6 +24,8 @@ import { lucidePlus } from '@ng-icons/lucide';
 })
 export class TaskList implements OnInit {
   private apiTask = inject(ApiTask);
+  private xpNotification = inject(XpNotification);
+  private pendingCompletionTaskIds = new Set<number>();
 
   tasks = signal<Task[]>([]);
   loading = signal(false);
@@ -135,11 +138,18 @@ export class TaskList implements OnInit {
   }
 
   toggleComplete(task: Task): void {
+    if (this.pendingCompletionTaskIds.has(task.id)) return;
+    this.pendingCompletionTaskIds.add(task.id);
     this.apiTask.completeTask(task.id).subscribe({
       next: (updated) => {
+        this.pendingCompletionTaskIds.delete(task.id);
         this.tasks.update((t) => t.map((tk) => (tk.id === updated.id ? updated : tk)));
+        if (!task.isCompleted && updated.isCompleted) {
+          this.xpNotification.show(task.category, task.difficulty);
+        }
       },
       error: (err) => {
+        this.pendingCompletionTaskIds.delete(task.id);
         this.error.set('Erro ao atualizar tarefa');
         console.error(err);
       },
@@ -159,9 +169,26 @@ export class TaskList implements OnInit {
   }
 
   completeSubtask({ taskId, subtaskId }: SubtaskAction): void {
+    if (this.pendingCompletionTaskIds.has(taskId)) return;
+    this.pendingCompletionTaskIds.add(taskId);
+    const taskBeforeCompletion = this.tasks().find((task) => task.id === taskId);
     this.apiTask.completeSubtask(taskId, subtaskId).subscribe({
-      next: (updated) => this.replaceTask(updated),
+      next: (updated) => {
+        this.pendingCompletionTaskIds.delete(taskId);
+        this.replaceTask(updated);
+        if (
+          taskBeforeCompletion &&
+          !taskBeforeCompletion.isCompleted &&
+          updated.isCompleted
+        ) {
+          this.xpNotification.show(
+            taskBeforeCompletion.category,
+            taskBeforeCompletion.difficulty,
+          );
+        }
+      },
       error: (err) => {
+        this.pendingCompletionTaskIds.delete(taskId);
         this.error.set('Erro ao concluir subtarefa');
         console.error(err);
       },

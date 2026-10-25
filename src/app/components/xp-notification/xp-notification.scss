@@ -1,0 +1,95 @@
+@use '../../../styles/variables.scss' as *;
+
+:host {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1100;
+  pointer-events: none;
+}
+
+.xp-notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 220px;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.55);
+  border-radius: 12px;
+  color: $text-color;
+  background-color: $third-color;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+  animation: xp-notification-enter 180ms ease-out;
+}
+
+.xp-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  color: $text-color;
+  background-color: $secondary-color;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.xp-message {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+
+  strong {
+    font-size: 16px;
+  }
+
+  span {
+    color: rgba($color: $text-color, $alpha: 0.72);
+    font-size: 13px;
+  }
+}
+
+button {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 8px;
+  color: $text-color;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgba($color: $secondary-color, $alpha: 0.2);
+  }
+}
+
+@keyframes xp-notification-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  :host {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+  }
+
+  .xp-notification {
+    width: 100%;
+  }
+}

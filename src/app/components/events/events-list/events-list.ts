@@ -19,6 +19,7 @@ import {
 import { Category } from '../../../enums/category';
 import { Difficulty } from '../../../enums/difficulty';
 import { EventsCard } from '../events-card/events-card';
+import { XpNotification } from '../../../services/xp-notification';
 
 @Component({
   selector: 'app-events-list',
@@ -28,7 +29,9 @@ import { EventsCard } from '../events-card/events-card';
 })
 export class EventsList implements OnInit, OnChanges {
   private apiEvent = inject(ApiEvent);
+  private xpNotification = inject(XpNotification);
   private dayRequestId = 0;
+  private pendingCompletionEventIds = new Set<number>();
 
   @Input() selectedDate = this.dateKey(new Date());
   @Input() refreshKey = 0;
@@ -161,14 +164,21 @@ export class EventsList implements OnInit, OnChanges {
   }
 
   completeEvent(event: CalendarEvent): void {
+    if (this.pendingCompletionEventIds.has(event.id)) return;
+    this.pendingCompletionEventIds.add(event.id);
     this.apiEvent.completeEvent(event.id).subscribe({
       next: () => {
+        this.pendingCompletionEventIds.delete(event.id);
+        if (!event.isCompleted) {
+          this.xpNotification.show(event.category, event.difficulty);
+        }
         if (!this.syncSelection) {
           this.loadSelectedDay();
         }
         this.eventsChanged.emit();
       },
       error: (err) => {
+        this.pendingCompletionEventIds.delete(event.id);
         this.error.set('Não foi possível concluir o evento.');
         console.error('Erro ao concluir evento:', err);
       },

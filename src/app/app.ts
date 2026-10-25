@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { Users } from './services/user/users';
 import { AuthService } from '@auth0/auth0-angular';
 import { Layout } from './core/layout/layout';
+import { XpNotification } from './components/xp-notification/xp-notification';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Layout],
+  imports: [RouterOutlet, Layout, XpNotification],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

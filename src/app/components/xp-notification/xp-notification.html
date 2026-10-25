@@ -1,0 +1,16 @@
+@if (notification.reward(); as reward) {
+  <aside class="xp-notification" role="status" aria-live="polite">
+    <span class="xp-icon" aria-hidden="true">+</span>
+    <span class="xp-message">
+      <strong>+{{ reward.amount }} XP</strong>
+      <span>em {{ reward.attribute }}</span>
+    </span>
+    <button
+      type="button"
+      aria-label="Fechar notificação de XP"
+      (click)="notification.dismiss()"
+    >
+      &times;
+    </button>
+  </aside>
+}
