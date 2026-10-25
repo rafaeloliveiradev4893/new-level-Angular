@@ -6,13 +6,14 @@ import {
   EventRequest,
   EventUpdateRequest,
 } from '../../model/event-model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiEvent {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/event';
+  private apiUrl = `${environment.apiUrl}/api/event`;
 
   getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.apiUrl);

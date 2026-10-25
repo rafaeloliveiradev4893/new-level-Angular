@@ -7,13 +7,14 @@ import {
   TaskRequest,
   TaskUpdateRequest,
 } from '../../model/task-model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiTask {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/task';
+  private apiUrl = `${environment.apiUrl}/api/task`;
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl);

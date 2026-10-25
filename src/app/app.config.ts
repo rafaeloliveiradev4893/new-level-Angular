@@ -5,6 +5,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { routes } from './app.routes';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       httpInterceptor: {
         allowedList: [
           {
-            uri: 'http://localhost:8080/api/*', // URL API
+            uri: `${environment.apiUrl}/api/*`,
             tokenOptions: {
               authorizationParams: {
                 audience: 'https://newlevelauth.com'
