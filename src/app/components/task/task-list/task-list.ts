@@ -6,10 +6,17 @@ import { Task } from '../../../model/task-model';
 import { Category } from '../../../enums/category';
 import { Difficulty } from '../../../enums/difficulty';
 import { TaskCard } from '../task-card/task-card';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucidePlus } from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-task-list',
-  imports: [CommonModule, FormsModule, TaskCard],
+  imports: [CommonModule, FormsModule, TaskCard, NgIcon],
+  providers: [
+    provideIcons({
+      lucidePlus
+    })
+  ],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
 })
@@ -19,6 +26,7 @@ export class TaskList implements OnInit {
   tasks = signal<Task[]>([]);
   loading = signal(false);
   error = signal<string | null>(null);
+  taskFormOpen = signal(false);
 
   newTask = signal<Partial<Task>>({
     title: '',
@@ -32,6 +40,15 @@ export class TaskList implements OnInit {
 
   ngOnInit(): void {
     this.loadTasks();
+  }
+
+  openTaskForm(): void {
+    this.error.set(null);
+    this.taskFormOpen.set(true);
+  }
+
+  closeTaskForm(): void {
+    this.taskFormOpen.set(false);
   }
 
   loadTasks(): void {
@@ -60,6 +77,7 @@ export class TaskList implements OnInit {
         this.tasks.update((t) => [...t, created]);
         this.newTask.set({ title: '', description: '', category: Category.Undefined, difficulty: Difficulty.Easy });
         this.loading.set(false);
+        this.closeTaskForm();
       },
       error: (err) => {
         this.error.set('Erro ao criar tarefa');
