@@ -8,6 +8,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ApiEvent } from '../../../services/event/api-event';
 import { Event as CalendarEvent } from '../../../model/event-model';
+import { EventsList } from '../events-list/events-list';
 
 interface CalendarDay {
   date: Date;
@@ -18,7 +19,7 @@ interface CalendarDay {
 
 @Component({
   selector: 'app-events-graph',
-  imports: [CommonModule],
+  imports: [CommonModule, EventsList],
   templateUrl: './events-graph.html',
   styleUrl: './events-graph.scss',
 })
@@ -31,6 +32,7 @@ export class EventsGraph implements OnInit {
   selectedDate = signal(this.dateKey(new Date()));
   loading = signal(false);
   error = signal<string | null>(null);
+  eventsRefreshKey = signal(0);
 
   weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 
@@ -76,9 +78,7 @@ export class EventsGraph implements OnInit {
 
   goToToday(): void {
     const today = new Date();
-    this.visibleMonth.set(this.firstOfMonth(today));
-    this.selectedDate.set(this.dateKey(today));
-    this.loadVisiblePeriod();
+    this.selectDate(this.dateKey(today));
   }
 
   selectDate(key: string): void {
@@ -89,6 +89,11 @@ export class EventsGraph implements OnInit {
       this.visibleMonth.set(this.firstOfMonth(date));
       this.loadVisiblePeriod();
     }
+  }
+
+  onEventsChanged(): void {
+    this.eventsRefreshKey.update((key) => key + 1);
+    this.loadVisiblePeriod();
   }
 
   loadVisiblePeriod(): void {

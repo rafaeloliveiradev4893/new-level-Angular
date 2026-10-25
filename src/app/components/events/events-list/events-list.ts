@@ -1,7 +1,12 @@
 import {
   Component,
+  EventEmitter,
   inject,
+  Input,
+  OnChanges,
   OnInit,
+  Output,
+  SimpleChanges,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -21,11 +26,16 @@ import { EventsCard } from '../events-card/events-card';
   templateUrl: './events-list.html',
   styleUrl: './events-list.scss',
 })
-export class EventsList implements OnInit {
+export class EventsList implements OnInit, OnChanges {
   private apiEvent = inject(ApiEvent);
   private dayRequestId = 0;
 
-  selectedDate = signal(this.dateKey(new Date()));
+  @Input() selectedDate = this.dateKey(new Date());
+  @Input() refreshKey = 0;
+  @Input() syncSelection = false;
+  @Output() selectedDateChange = new EventEmitter<string>();
+  @Output() eventsChanged = new EventEmitter<void>();
+
   events = signal<CalendarEvent[]>([]);
   loading = signal(false);
   saving = signal(false);
@@ -38,7 +48,7 @@ export class EventsList implements OnInit {
   difficulties = Object.values(Difficulty);
 
   get selectedDateLabel(): string {
-    const [year, month, day] = this.selectedDate().split('-').map(Number);
+    const [year, month, day] = this.selectedDate.split('-').map(Number);
     return new Date(year, month - 1, day).toLocaleDateString('pt-BR', {
       weekday: 'long',
       day: 'numeric',
@@ -49,6 +59,15 @@ export class EventsList implements OnInit {
 
   ngOnInit(): void {
     this.loadSelectedDay();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      (changes['selectedDate'] && !changes['selectedDate'].firstChange) ||
+      (changes['refreshKey'] && !changes['refreshKey'].firstChange)
+    ) {
+      this.loadSelectedDay();
+    }
   }
 
   previousDay(): void {
@@ -62,7 +81,7 @@ export class EventsList implements OnInit {
   openCreateForm(): void {
     this.error.set(null);
     this.editingEventId.set(null);
-    this.eventForm.set(this.emptyEventForm(this.selectedDate()));
+    this.eventForm.set(this.emptyEventForm(this.selectedDate));
     this.eventFormOpen.set(true);
   }
 
@@ -131,6 +150,7 @@ export class EventsList implements OnInit {
         this.saving.set(false);
         this.eventFormOpen.set(false);
         this.setSelectedDate(savedEvent.startDate.slice(0, 10));
+        this.eventsChanged.emit();
       },
       error: (err) => {
         this.error.set('Não foi possível salvar o evento.');
@@ -143,7 +163,10 @@ export class EventsList implements OnInit {
   completeEvent(event: CalendarEvent): void {
     this.apiEvent.completeEvent(event.id).subscribe({
       next: () => {
-        this.loadSelectedDay();
+        if (!this.syncSelection) {
+          this.loadSelectedDay();
+        }
+        this.eventsChanged.emit();
       },
       error: (err) => {
         this.error.set('Não foi possível concluir o evento.');
@@ -156,6 +179,7 @@ export class EventsList implements OnInit {
     this.apiEvent.deleteEvent(id).subscribe({
       next: () => {
         this.events.update((events) => events.filter((event) => event.id !== id));
+        this.eventsChanged.emit();
       },
       error: (err) => {
         this.error.set('Não foi possível excluir o evento.');
@@ -166,7 +190,7 @@ export class EventsList implements OnInit {
 
   loadSelectedDay(): void {
     const requestId = ++this.dayRequestId;
-    const selectedDate = this.selectedDate();
+    const selectedDate = this.selectedDate;
     this.loading.set(true);
     this.error.set(null);
     this.apiEvent
@@ -196,14 +220,17 @@ export class EventsList implements OnInit {
   }
 
   private changeSelectedDay(offset: number): void {
-    const [year, month, day] = this.selectedDate().split('-').map(Number);
+    const [year, month, day] = this.selectedDate.split('-').map(Number);
     const date = new Date(year, month - 1, day + offset);
     this.setSelectedDate(this.dateKey(date));
   }
 
   private setSelectedDate(date: string): void {
-    this.selectedDate.set(date);
-    this.loadSelectedDay();
+    this.selectedDate = date;
+    this.selectedDateChange.emit(date);
+    if (!this.syncSelection) {
+      this.loadSelectedDay();
+    }
   }
 
   private emptyEventForm(date = this.dateKey(new Date())): EventRequest {

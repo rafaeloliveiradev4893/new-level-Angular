@@ -1,5 +1,15 @@
 :host {
   display: block;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  :host {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
 }

@@ -1,58 +1,67 @@
 <section class="calendar">
-  <header class="calendar-header">
-    <div class="calendar-title">
-      <h2>Agenda</h2>
-      <span>{{ monthLabel() }}</span>
-    </div>
-    <div class="calendar-controls">
-      <button type="button" class="today-button" (click)="goToToday()">Hoje</button>
-      <div class="month-controls">
-        <button type="button" aria-label="Mês anterior" (click)="previousMonth()">
-          &#8249;
-        </button>
-        <button type="button" aria-label="Próximo mês" (click)="nextMonth()">
-          &#8250;
-        </button>
+  <div class="calendar-panel">
+    <header class="calendar-header">
+      <div class="calendar-title">
+        <h2>Agenda</h2>
+        <span>{{ monthLabel() }}</span>
       </div>
-    </div>
-  </header>
+      <div class="calendar-controls">
+        <button type="button" class="today-button" (click)="goToToday()">Hoje</button>
+        <div class="month-controls">
+          <button type="button" aria-label="Mês anterior" (click)="previousMonth()">
+            &#8249;
+          </button>
+          <button type="button" aria-label="Próximo mês" (click)="nextMonth()">
+            &#8250;
+          </button>
+        </div>
+      </div>
+    </header>
 
-  @if (error()) {
-    <p class="calendar-error" role="alert">{{ error() }}</p>
-  }
-
-  <div class="calendar-grid" [attr.aria-busy]="loading()">
-    @for (dayName of weekDays; track dayName) {
-      <div class="weekday" role="columnheader">{{ dayName }}</div>
+    @if (error()) {
+      <p class="calendar-error" role="alert">{{ error() }}</p>
     }
-    @for (day of calendarDays(); track day.key) {
-      <button
-        class="calendar-day"
-        [class.outside-month]="!day.inCurrentMonth"
-        [class.selected]="selectedDate() === day.key"
-        [class.today]="isToday(day.key)"
-        type="button"
-        [attr.aria-label]="day.date | date: 'EEEE, d MMMM y'"
-        [attr.aria-pressed]="selectedDate() === day.key"
-        (click)="selectDate(day.key)"
-      >
-        <span class="day-number">{{ day.date.getDate() }}</span>
-        <span class="day-events">
-          @for (event of day.events.slice(0, 2); track event.id) {
-            <span class="day-event" [class.completed]="event.isCompleted">
-              {{ formatEventTime(event.startDate) }} {{ event.title }}
-            </span>
-          }
-          @if (day.events.length > 2) {
-            <span class="more-events">+{{ day.events.length - 2 }} mais</span>
-          }
-        </span>
-      </button>
+
+    <div class="calendar-grid" [attr.aria-busy]="loading()">
+      @for (dayName of weekDays; track dayName) {
+        <div class="weekday" role="columnheader">{{ dayName }}</div>
+      }
+      @for (day of calendarDays(); track day.key) {
+        <button
+          class="calendar-day"
+          [class.outside-month]="!day.inCurrentMonth"
+          [class.selected]="selectedDate() === day.key"
+          [class.today]="isToday(day.key)"
+          type="button"
+          [attr.aria-label]="day.date | date: 'EEEE, d MMMM y'"
+          [attr.aria-pressed]="selectedDate() === day.key"
+          (click)="selectDate(day.key)"
+        >
+          <span class="day-number">{{ day.date.getDate() }}</span>
+          <span class="day-events">
+            @for (event of day.events.slice(0, 2); track event.id) {
+              <span class="day-event" [class.completed]="event.isCompleted">
+                {{ formatEventTime(event.startDate) }} {{ event.title }}
+              </span>
+            }
+            @if (day.events.length > 2) {
+              <span class="more-events">+{{ day.events.length - 2 }} mais</span>
+            }
+          </span>
+        </button>
+      }
+    </div>
+
+    @if (loading()) {
+      <p class="calendar-status" role="status">Carregando eventos...</p>
     }
   </div>
-
-  @if (loading()) {
-    <p class="calendar-status" role="status">Carregando eventos...</p>
-  }
-
+  <app-events-list
+    class="calendar-events-list"
+    [selectedDate]="selectedDate()"
+    [refreshKey]="eventsRefreshKey()"
+    [syncSelection]="true"
+    (selectedDateChange)="selectDate($event)"
+    (eventsChanged)="onEventsChanged()"
+  />
 </section>
