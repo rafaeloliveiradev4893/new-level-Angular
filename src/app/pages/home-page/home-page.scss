@@ -1,11 +1,49 @@
-.container {
+.dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(280px, auto));
+  grid-template-areas:
+    'tasks tasks user'
+    'events events user';
   gap: 20px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.dashboard-tasks,
+.dashboard-events,
+.dashboard-user {
+  min-width: 0;
+}
+
+.dashboard-tasks {
+  grid-area: tasks;
+}
+
+.dashboard-events {
+  grid-area: events;
+}
+
+.dashboard-user {
+  grid-area: user;
+}
+
+.dashboard-tasks app-task-list,
+.dashboard-events app-events-graph,
+.dashboard-user app-user-info {
+  display: block;
+  width: 100%;
 }
 
 @media (max-width: 900px) {
-  .container {
+  .dashboard-grid {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      'tasks'
+      'events'
+      'user';
   }
 }
