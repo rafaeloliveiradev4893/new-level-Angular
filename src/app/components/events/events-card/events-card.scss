@@ -1,0 +1,164 @@
+@use '../../../../styles/variables.scss' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.event-card {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.65fr) minmax(0, 2fr) auto;
+  align-items: start;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.32);
+  border-left: 4px solid $secondary-color;
+  border-radius: 12px;
+  color: $text-color;
+  background-color: rgba($color: $primary-color, $alpha: 0.55);
+  transition: border-color 160ms ease, background-color 160ms ease;
+
+  &:hover {
+    border-color: rgba($color: $secondary-color, $alpha: 0.7);
+    background-color: rgba($color: $primary-color, $alpha: 0.8);
+  }
+
+  &.completed {
+    opacity: 0.72;
+    border-left-color: rgba($color: $secondary-color, $alpha: 0.45);
+
+    h4 {
+      text-decoration: line-through;
+    }
+  }
+}
+
+.event-time {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: $text-color;
+
+  strong {
+    font-size: 15px;
+  }
+
+  span {
+    color: rgba($color: $text-color, $alpha: 0.62);
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+}
+
+.event-content {
+  min-width: 0;
+}
+
+.event-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+
+  h4 {
+    margin: 0;
+    color: $text-color;
+    font-size: 17px;
+    overflow-wrap: anywhere;
+  }
+}
+
+.event-status,
+.event-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 23px;
+  padding: 3px 8px;
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.36);
+  border-radius: 999px;
+  color: rgba($color: $text-color, $alpha: 0.86);
+  background-color: rgba($color: $secondary-color, $alpha: 0.13);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.event-description {
+  margin: 7px 0 0;
+  color: rgba($color: $text-color, $alpha: 0.72);
+  font-size: 14px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.completed-at {
+  margin: 8px 0 0;
+  color: rgba($color: $text-color, $alpha: 0.58);
+  font-size: 12px;
+}
+
+.event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.event-action {
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.36);
+  border-radius: 7px;
+  color: $text-color;
+  background-color: rgba($color: $secondary-color, $alpha: 0.14);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background-color: rgba($color: $secondary-color, $alpha: 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.delete-action {
+  border-color: rgba($color: $text-color, $alpha: 0.2);
+  background-color: rgba($color: $text-color, $alpha: 0.06);
+}
+
+@media (max-width: 640px) {
+  .event-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 13px;
+  }
+
+  .event-time {
+    grid-column: 1;
+  }
+
+  .event-content {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .event-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}

@@ -1,1 +1,57 @@
-<p>events-card works!</p>
+<article class="event-card" [class.completed]="event.isCompleted">
+  <div class="event-time">
+    <strong>{{ timeRange }}</strong>
+    <span>{{ eventDate }}</span>
+  </div>
+
+  <div class="event-content">
+    <div class="event-title-row">
+      <h4>{{ event.title }}</h4>
+      <span class="event-status">{{ event.isCompleted ? 'Concluído' : 'Agendado' }}</span>
+    </div>
+
+    @if (event.description) {
+      <p class="event-description">{{ event.description }}</p>
+    }
+
+    <div class="event-meta">
+      <span>{{ event.category }}</span>
+      <span>{{ event.difficulty }}</span>
+    </div>
+
+    @if (event.completedAt) {
+      <p class="completed-at">
+        Concluído em {{ event.completedAt | date: 'dd/MM/yyyy HH:mm' }}
+      </p>
+    }
+  </div>
+
+  <div class="event-actions">
+    <button
+      type="button"
+      class="event-action"
+      [disabled]="event.isCompleted"
+      [attr.aria-label]="event.isCompleted ? 'Evento concluído' : 'Concluir evento'"
+      [title]="event.isCompleted ? 'Evento concluído' : 'Concluir evento'"
+      (click)="complete()"
+    >
+      {{ event.isCompleted ? '✓' : 'Concluir' }}
+    </button>
+    <button
+      type="button"
+      class="event-action"
+      [attr.aria-label]="'Editar ' + event.title"
+      (click)="edit()"
+    >
+      Editar
+    </button>
+    <button
+      type="button"
+      class="event-action delete-action"
+      [attr.aria-label]="'Excluir ' + event.title"
+      (click)="delete()"
+    >
+      Excluir
+    </button>
+  </div>
+</article>

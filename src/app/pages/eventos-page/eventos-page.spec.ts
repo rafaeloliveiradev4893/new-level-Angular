@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 import { EventosPage } from './eventos-page';
+import { ApiEvent } from '../../services/event/api-event';
 
 describe('EventosPage', () => {
   let component: EventosPage;
@@ -9,6 +11,14 @@ describe('EventosPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EventosPage],
+      providers: [
+        {
+          provide: ApiEvent,
+          useValue: {
+            getEventsByPeriod: () => of([]),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EventosPage);
