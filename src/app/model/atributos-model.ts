@@ -1,5 +1,5 @@
 // models/atributos.ts
-export interface Atributos {
+export interface AtributosNivel {
   forca: number,
   destreza: number,
   constituicao: number,

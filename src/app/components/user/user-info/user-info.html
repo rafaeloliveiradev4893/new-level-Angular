@@ -14,26 +14,30 @@
       </div>
     </header>
 
-    <div class="user-stats">
-      <article class="stat">
-        <span class="stat-label">Nível</span>
-        <strong class="stat-value">{{ user.level }}</strong>
-      </article>
-      <article class="stat">
-        <span class="stat-label">Experiência</span>
-        <strong class="stat-value">{{ user.currentXp }} <span>XP</span></strong>
-      </article>
+    <div class="user-level">
+      <span class="stat-label">Nível geral</span>
+      <strong class="stat-value">{{ user.level }}</strong>
     </div>
 
-    <dl class="user-dates">
-      <div class="date-row">
-        <dt>Membro desde</dt>
-        <dd>{{ user.createdAt | date: 'dd/MM/yyyy' }}</dd>
+    <section class="attributes" aria-labelledby="attributes-heading">
+      <h3 id="attributes-heading">Atributos</h3>
+      <div class="attribute-grid">
+        @for (attribute of attributes; track attribute.key) {
+          <article class="attribute-card">
+            <h4>{{ attribute.label }}</h4>
+            <div class="attribute-values">
+              <span>
+                <span class="attribute-label">Nível</span>
+                <strong>{{ user.atributos[attribute.key] }}</strong>
+              </span>
+              <span>
+                <span class="attribute-label">XP</span>
+                <strong>{{ user.atributosXp[attribute.key] }}</strong>
+              </span>
+            </div>
+          </article>
+        }
       </div>
-      <div class="date-row">
-        <dt>Perfil atualizado</dt>
-        <dd>{{ user.updatedAt | date: 'dd/MM/yyyy' }}</dd>
-      </div>
-    </dl>
+    </section>
   }
 </section>
