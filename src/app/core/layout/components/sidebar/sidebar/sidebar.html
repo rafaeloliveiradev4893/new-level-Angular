@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="sidebar-shell">
   @if (!isMobileOpen) {
     <button
@@ -82,3 +83,50 @@
     </div>
   </aside>
 </div>
+=======
+<div class="sidebar" [class.open]="isOpen()">
+  <div class="content">
+    @if (isMobile()) {
+      <button class="mobile-close" (click)="close()" aria-label="Fechar menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    }
+    <div class="logo">
+      <img src="logo.svg" alt="logo"><span>New Level</span>
+    </div>
+    <span class="menu-txt">Menu</span>
+    <div class="menu-navegacao">
+      <app-navegation-button
+        text="Visão Geral"
+        src="Visão Geral.svg"
+        alt="Visão Geral icon"
+      />
+      <app-navegation-button
+        text="Progressão"
+        src="Visão Geral.svg"
+        alt="Visão Geral icon"
+      />
+      <app-navegation-button
+        text="Tarefas"
+        src="Visão Geral.svg"
+        alt="Visão Geral icon"
+      />
+      <app-navegation-button
+        text="Eventos"
+        src="Visão Geral.svg"
+        alt="Visão Geral icon"
+      />
+    </div>
+    <div class="menu-config">
+      <app-settings-button/>
+      <app-profile-button/>
+    </div>
+  </div>
+  @if (isMobile()) {
+    <div class="overlay" (click)="close()"></div>
+  }
+</div>
+>>>>>>> aed1af736e66cff77b0ea1a7067bc664f3956b9d
