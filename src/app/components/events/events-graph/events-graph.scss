@@ -248,6 +248,7 @@
 .event-modal {
   width: min(100%, 520px);
   max-height: calc(100vh - 32px);
+  box-sizing: border-box;
   overflow-y: auto;
   padding: clamp(18px, 3vw, 26px);
   border: 1px solid rgba($color: $secondary-color, $alpha: 0.38);
@@ -255,6 +256,12 @@
   color: $text-color;
   background-color: $third-color;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+}
+
+@supports (height: 100dvh) {
+  .event-modal {
+    max-height: calc(100dvh - 32px);
+  }
 }
 
 .modal-heading {

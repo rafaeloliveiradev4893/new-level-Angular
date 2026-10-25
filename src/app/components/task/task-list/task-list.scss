@@ -177,12 +177,19 @@ h2 {
 .task-modal {
   width: min(100%, 480px);
   max-height: calc(100vh - 32px);
+  box-sizing: border-box;
   overflow-y: auto;
   padding: clamp(16px, 3vw, 24px);
   border: 1px solid rgba($color: $secondary-color, $alpha: 0.3);
   border-radius: 12px;
   background-color: $third-color;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+@supports (height: 100dvh) {
+  .task-modal {
+    max-height: calc(100dvh - 32px);
+  }
 }
 
 .modal-heading {

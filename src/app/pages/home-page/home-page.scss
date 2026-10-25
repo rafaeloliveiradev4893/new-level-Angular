@@ -37,7 +37,7 @@
   width: 100%;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .dashboard-grid {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto;
@@ -45,5 +45,12 @@
       'tasks'
       'events'
       'user';
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-grid {
+    gap: 14px;
+    padding: 8px;
   }
 }
