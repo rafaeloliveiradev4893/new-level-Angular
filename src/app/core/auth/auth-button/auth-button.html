@@ -13,7 +13,6 @@
   } @else {
 
     @if (auth.error$ | async; as error) {
-    <p>Error: {{ error.message }}</p>
     }
 
     <button (click)="auth.loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } })" class="signup-button">
