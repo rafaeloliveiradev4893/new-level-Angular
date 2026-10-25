@@ -7,6 +7,11 @@
   min-width: 0;
 }
 
+.top {
+  display: flex;
+  gap: 10px;
+}
+
 .task-card {
   display: flex;
   align-items: center;

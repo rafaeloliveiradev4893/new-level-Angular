@@ -74,6 +74,31 @@
           <ng-icon name="lucideCalendarDays" size="24px" />
           <span>Eventos</span>
         </app-navegation-button>
+
+        <app-navegation-button route="/Guilda" label="Guilda" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideShield" size="24px" />
+          <span>Guilda</span>
+        </app-navegation-button>
+
+        <app-navegation-button route="/NPCs" label="NPCs" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideUserRound" size="24px" />
+          <span>NPCs</span>
+        </app-navegation-button>
+
+        <app-navegation-button route="/Conquistas" label="Conquistas" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideTrophy" size="24px" />
+          <span>Conquistas</span>
+        </app-navegation-button>
+
+        <app-navegation-button route="/Loja" label="Loja" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideStore" size="24px" />
+          <span>Loja</span>
+        </app-navegation-button>
+
+        <app-navegation-button route="/Amigos" label="Amigos" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideUsers" size="24px" />
+          <span>Amigos</span>
+        </app-navegation-button>
       </nav>
 
       <div class="menu-config">

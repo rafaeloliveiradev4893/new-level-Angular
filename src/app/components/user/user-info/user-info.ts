@@ -11,6 +11,7 @@ import { getApiErrorMessage } from '../../../utils/api-error-message';
 })
 export class UserInfo implements OnInit {
   private apiUser = inject(Users);
+  upcomingFeatures = ['Guilda', 'Conquistas', 'Amigos', 'Inventário'];
 
   attributes: { key: keyof User['atributos']; label: string }[] = [
     { key: 'forca', label: 'Força' },

@@ -39,5 +39,14 @@
         }
       </div>
     </section>
+
+    <section class="upcoming-features" aria-label="Funcionalidades futuras">
+      @for (feature of upcomingFeatures; track feature) {
+        <article class="upcoming-feature">
+          <h3>{{ feature }}</h3>
+          <p>Em breve</p>
+        </article>
+      }
+    </section>
   }
 </section>

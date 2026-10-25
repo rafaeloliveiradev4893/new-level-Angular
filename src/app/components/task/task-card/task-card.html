@@ -1,16 +1,12 @@
 <article class="task-card" [class.completed]="task.isCompleted">
   <div class="task-info">
-    <h3 class="task-title">{{ task.title }}</h3>
-    @if (task.description) {
-      <p class="task-description">{{ task.description }}</p>
-    }
-    <div class="task-meta">
-      <span class="badge category">{{ task.category }}</span>
-      <span class="badge difficulty">{{ task.difficulty }}</span>
-      @if (task.dueDate) {
-        <span class="due-date">Prazo: {{ task.dueDate | date: 'shortDate' }}</span>
-      }
-      <span class="badge status">{{ task.isCompleted ? 'Concluída' : 'Pendente' }}</span>
+    <div class="top">
+      <div>
+        <h3 class="task-title">{{ task.title }}</h3>
+        @if (task.description) {
+          <p class="task-description">{{ task.description }}</p>
+        }
+      </div>
       <div class="task-actions">
         <button
           class="action-button completion-button"
@@ -34,6 +30,15 @@
           </button>
         }
       </div>
+    </div>
+
+    <div class="task-meta">
+      <span class="badge category">{{ task.category }}</span>
+      <span class="badge difficulty">{{ task.difficulty }}</span>
+      @if (task.dueDate) {
+        <span class="due-date">Prazo: {{ task.dueDate | date: 'shortDate' }}</span>
+      }
+      <span class="badge status">{{ task.isCompleted ? 'Concluída' : 'Pendente' }}</span>
     </div>
 
     @if (task.subtasks.length) {

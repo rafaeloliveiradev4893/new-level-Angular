@@ -11,6 +11,11 @@ import {
   lucideLayoutDashboard,
   lucideListChecks,
   lucideMenu,
+  lucideShield,
+  lucideStore,
+  lucideTrophy,
+  lucideUserRound,
+  lucideUsers,
   lucideX,
 } from '@ng-icons/lucide';
 
@@ -26,6 +31,11 @@ import {
       lucideLayoutDashboard,
       lucideListChecks,
       lucideMenu,
+      lucideShield,
+      lucideStore,
+      lucideTrophy,
+      lucideUserRound,
+      lucideUsers,
       lucideX,
     }),
   ],

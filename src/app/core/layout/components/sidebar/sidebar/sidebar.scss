@@ -8,8 +8,11 @@
   background-color: $third-color;
   color: $text-color;
   width: 264px;
+  height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
   box-sizing: border-box;
+  overflow-y: auto;
   transition: width 180ms ease, transform 180ms ease;
 }
 
@@ -129,6 +132,7 @@
     z-index: 1002;
     inset: 0 auto 0 0;
     width: min(300px, calc(100vw - 56px));
+    height: 100dvh;
     min-height: 100dvh;
     transform: translateX(-100%);
     overflow-y: auto;
