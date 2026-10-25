@@ -6,6 +6,7 @@ import { Task, TaskRequest } from '../../../model/task-model';
 import { Category } from '../../../enums/category';
 import { Difficulty } from '../../../enums/difficulty';
 import { TaskCard } from '../task-card/task-card';
+import type { SubtaskAction } from '../task-card/task-card';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePlus } from '@ng-icons/lucide';
 
@@ -30,9 +31,13 @@ export class TaskList implements OnInit {
 
   newTask = signal<TaskRequest>({
     title: '',
+    description: '',
+    dueDate: null,
     category: Category.Undefined,
     difficulty: Difficulty.Easy,
   });
+  subtaskTitles = signal<string[]>([]);
+  newSubtaskTitle = '';
 
   categories = Object.values(Category);
   difficulties = Object.values(Difficulty);
@@ -48,6 +53,24 @@ export class TaskList implements OnInit {
 
   closeTaskForm(): void {
     this.taskFormOpen.set(false);
+  }
+
+  addSubtaskField(): void {
+    const title = this.newSubtaskTitle.trim();
+    if (!title) return;
+
+    this.subtaskTitles.update((titles) => [...titles, title]);
+    this.newSubtaskTitle = '';
+  }
+
+  removeSubtaskField(index: number): void {
+    this.subtaskTitles.update((titles) => titles.filter((_, i) => i !== index));
+  }
+
+  updateSubtaskTitle(index: number, title: string): void {
+    this.subtaskTitles.update((titles) =>
+      titles.map((current, i) => (i === index ? title : current)),
+    );
   }
 
   loadTasks(): void {
@@ -70,15 +93,24 @@ export class TaskList implements OnInit {
     const task = this.newTask();
     if (!task.title.trim()) return;
 
+    const description = task.description?.trim();
+    const subtasks = this.subtaskTitles()
+      .map((title) => title.trim())
+      .filter(Boolean);
+    const request: TaskRequest = {
+      title: task.title.trim(),
+      category: task.category,
+      difficulty: task.difficulty,
+      ...(description ? { description } : {}),
+      ...(task.dueDate ? { dueDate: task.dueDate } : {}),
+      ...(subtasks.length ? { subtasks: subtasks.map((title) => ({ title })) } : {}),
+    };
+
     this.loading.set(true);
-    this.apiTask.addTask(task).subscribe({
+    this.apiTask.addTask(request).subscribe({
       next: (created) => {
         this.tasks.update((t) => [...t, created]);
-        this.newTask.set({
-          title: '',
-          category: Category.Undefined,
-          difficulty: Difficulty.Easy,
-        });
+        this.resetTaskForm();
         this.loading.set(false);
         this.closeTaskForm();
       },
@@ -88,6 +120,18 @@ export class TaskList implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  private resetTaskForm(): void {
+    this.newTask.set({
+      title: '',
+      description: '',
+      dueDate: null,
+      category: Category.Undefined,
+      difficulty: Difficulty.Easy,
+    });
+    this.subtaskTitles.set([]);
+    this.newSubtaskTitle = '';
   }
 
   toggleComplete(task: Task): void {
@@ -112,5 +156,31 @@ export class TaskList implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  completeSubtask({ taskId, subtaskId }: SubtaskAction): void {
+    this.apiTask.completeSubtask(taskId, subtaskId).subscribe({
+      next: (updated) => this.replaceTask(updated),
+      error: (err) => {
+        this.error.set('Erro ao concluir subtarefa');
+        console.error(err);
+      },
+    });
+  }
+
+  deleteSubtask({ taskId, subtaskId }: SubtaskAction): void {
+    this.apiTask.deleteSubtask(taskId, subtaskId).subscribe({
+      next: (updated) => this.replaceTask(updated),
+      error: (err) => {
+        this.error.set('Erro ao remover subtarefa');
+        console.error(err);
+      },
+    });
+  }
+
+  private replaceTask(updated: Task): void {
+    this.tasks.update((tasks) =>
+      tasks.map((task) => (task.id === updated.id ? updated : task)),
+    );
   }
 }

@@ -97,6 +97,57 @@
   font-size: 13px;
 }
 
+.badge.status {
+  background-color: rgba($color: $secondary-color, $alpha: 0.08);
+}
+
+.task-timestamps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  color: rgba($color: $text-color, $alpha: 0.55);
+  font-size: 12px;
+}
+
+.subtask-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba($color: $secondary-color, $alpha: 0.16);
+
+  &.completed .subtask-title {
+    color: rgba($color: $text-color, $alpha: 0.55);
+    text-decoration: line-through;
+  }
+}
+
+.subtask-title {
+  overflow-wrap: anywhere;
+}
+
+.subtask-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+}
+
+.subtask-action {
+  width: 32px;
+  height: 32px;
+}
+
 .task-actions {
   display: flex;
   flex: 0 0 auto;
@@ -115,6 +166,11 @@
   background-color: rgba($color: $secondary-color, $alpha: 0.18);
   cursor: pointer;
   transition: background-color 150ms ease, border-color 150ms ease;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
 
   &:hover,
   &:focus-visible {

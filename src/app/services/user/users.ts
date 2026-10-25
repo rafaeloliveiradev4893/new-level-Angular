@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User, UserRequest } from '../../model/user-model';
+import { User } from '../../model/user-model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,12 +14,12 @@ export class Users {
     return this.http.get<User>(`${this.apiUrl}/me`);
   }
 
-  saveUser(user: UserRequest = {}): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
+  saveUser(): Observable<User> {
+    return this.http.post<User>(this.apiUrl, null);
   }
 
-  updateUser(user: UserRequest): Observable<User> {
-    return this.http.patch<User>(this.apiUrl, user);
+  updateUser(): Observable<User> {
+    return this.http.patch<User>(this.apiUrl, null);
   }
 
   deleteUser(): Observable<void> {

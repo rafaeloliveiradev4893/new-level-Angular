@@ -14,6 +14,8 @@
           [task]="task"
           (completionToggled)="toggleComplete($event)"
           (deletionRequested)="deleteTask($event)"
+          (subtaskCompletionRequested)="completeSubtask($event)"
+          (subtaskDeletionRequested)="deleteSubtask($event)"
         />
       } @empty {
         <p class="empty">Nenhuma tarefa adicionada</p>
@@ -51,29 +53,90 @@
         }
 
         <form (ngSubmit)="addTask()" class="task-form">
-          <input
-            type="text"
-            [(ngModel)]="newTask().title"
-            name="title"
-            placeholder="Título da tarefa"
-            required
-          />
-          <input
-            type="text"
-            [(ngModel)]="newTask().description"
-            name="description"
-            placeholder="Descrição (opcional)"
-          />
-          <select [(ngModel)]="newTask().category" name="category">
-            @for (cat of categories; track cat) {
-              <option [value]="cat">{{ cat }}</option>
+          <label class="form-field">
+            <span>Título</span>
+            <input
+              type="text"
+              [(ngModel)]="newTask().title"
+              name="title"
+              placeholder="Título da tarefa"
+              required
+            />
+          </label>
+          <label class="form-field">
+            <span>Descrição</span>
+            <textarea
+              [(ngModel)]="newTask().description"
+              name="description"
+              placeholder="Descrição (opcional)"
+              rows="3"
+            ></textarea>
+          </label>
+          <label class="form-field">
+            <span>Data limite</span>
+            <input
+              type="date"
+              [(ngModel)]="newTask().dueDate"
+              name="dueDate"
+            />
+          </label>
+          <label class="form-field">
+            <span>Categoria</span>
+            <select [(ngModel)]="newTask().category" name="category" required>
+              @for (cat of categories; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+          </label>
+          <label class="form-field">
+            <span>Dificuldade</span>
+            <select [(ngModel)]="newTask().difficulty" name="difficulty" required>
+              @for (diff of difficulties; track diff) {
+                <option [value]="diff">{{ diff }}</option>
+              }
+            </select>
+          </label>
+
+          <fieldset class="subtask-fields">
+            <legend>Subtarefas <span>(opcional)</span></legend>
+            @for (title of subtaskTitles(); track $index; let i = $index) {
+              <div class="subtask-input-row">
+                <input
+                  type="text"
+                  [ngModel]="title"
+                  (ngModelChange)="updateSubtaskTitle(i, $event)"
+                  [name]="'subtask-' + i"
+                  [attr.aria-label]="'Título da subtarefa ' + (i + 1)"
+                  placeholder="Título da subtarefa"
+                />
+                <button
+                  class="remove-subtask-button"
+                  type="button"
+                  [attr.aria-label]="'Remover subtarefa ' + (i + 1)"
+                  (click)="removeSubtaskField(i)"
+                >
+                  &times;
+                </button>
+              </div>
             }
-          </select>
-          <select [(ngModel)]="newTask().difficulty" name="difficulty">
-            @for (diff of difficulties; track diff) {
-              <option [value]="diff">{{ diff }}</option>
-            }
-          </select>
+            <div class="subtask-input-row">
+              <input
+                type="text"
+                [(ngModel)]="newSubtaskTitle"
+                name="newSubtask"
+                placeholder="Nova subtarefa"
+              />
+              <button
+                class="add-subtask-button"
+                type="button"
+                (click)="addSubtaskField()"
+                [disabled]="!newSubtaskTitle.trim()"
+              >
+                Adicionar
+              </button>
+            </div>
+          </fieldset>
+
           <button type="submit" [disabled]="loading()">Adicionar</button>
         </form>
       </section>

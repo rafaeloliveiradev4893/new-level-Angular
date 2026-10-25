@@ -1,4 +1,4 @@
-<article class="task-card" [class.completed]="task.completedAt">
+<article class="task-card" [class.completed]="task.isCompleted">
   <div class="task-info">
     <h3 class="task-title">{{ task.title }}</h3>
     @if (task.description) {
@@ -10,6 +10,49 @@
       @if (task.dueDate) {
         <span class="due-date">Prazo: {{ task.dueDate | date: 'shortDate' }}</span>
       }
+      <span class="badge status">{{ task.isCompleted ? 'Concluída' : 'Pendente' }}</span>
+    </div>
+
+    @if (task.subtasks.length) {
+      <ul class="subtask-list" aria-label="Subtarefas">
+        @for (subtask of task.subtasks; track subtask.id) {
+          <li class="subtask-item" [class.completed]="subtask.isCompleted">
+            <span class="subtask-title">{{ subtask.title }}</span>
+            <div class="subtask-actions">
+              @if (!subtask.isCompleted) {
+                <button
+                  class="action-button subtask-action"
+                  type="button"
+                  [attr.aria-label]="'Concluir subtarefa ' + subtask.title"
+                  [title]="'Concluir ' + subtask.title"
+                  (click)="completeSubtask(subtask.id)"
+                >
+                  <ng-icon name="lucideCheck" size="16px" />
+                </button>
+              }
+              <button
+                class="action-button delete-button subtask-action"
+                type="button"
+                [attr.aria-label]="'Excluir subtarefa ' + subtask.title"
+                [title]="'Excluir ' + subtask.title"
+                (click)="deleteSubtask(subtask.id)"
+              >
+                <ng-icon name="lucideTrash2" size="16px" />
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+
+    <div class="task-timestamps">
+      <span>Criada em: {{ task.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+      @if (task.updatedAt) {
+        <span>Atualizada em: {{ task.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+      }
+      @if (task.completedAt) {
+        <span>Concluída em: {{ task.completedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+      }
     </div>
   </div>
 
@@ -17,11 +60,12 @@
     <button
       class="action-button completion-button"
       type="button"
-      [attr.aria-label]="task.completedAt ? 'Marcar como pendente' : 'Marcar como concluída'"
-      [title]="task.completedAt ? 'Marcar como pendente' : 'Marcar como concluída'"
+      [attr.aria-label]="task.isCompleted ? 'Tarefa concluída' : 'Marcar como concluída'"
+      [title]="task.isCompleted ? 'Tarefa concluída' : 'Marcar como concluída'"
+      [disabled]="task.isCompleted"
       (click)="toggleCompletion()"
     >
-      <ng-icon [name]="task.completedAt ? 'lucideRotateCcw' : 'lucideCheck'" size="18px" />
+      <ng-icon name="lucideCheck" size="18px" />
     </button>
     @if (task.id !== undefined) {
       <button

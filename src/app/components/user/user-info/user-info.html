@@ -1,8 +1,39 @@
-@if (user) {
-  <div>
-    <h2>{{ user.name }}</h2>
-    <p>Level: {{ user.level }}</p>
-    <p>XP: {{ user.currentXp }}</p>
-    <p>Member since: {{ user.createdAt }}</p>
-  </div>
-}
+<section class="user-card" aria-labelledby="user-name">
+  @if (loading) {
+    <p class="status-message" role="status">Carregando perfil...</p>
+  } @else if (error) {
+    <p class="status-message error" role="alert">{{ error }}</p>
+  } @else if (user) {
+    <header class="user-header">
+      <div class="user-avatar" aria-hidden="true">
+        {{ user.name?.charAt(0)?.toUpperCase() || 'U' }}
+      </div>
+      <div class="user-heading">
+        <p class="eyebrow">Seu perfil</p>
+        <h2 id="user-name">{{ user.name || 'Aventureiro' }}</h2>
+      </div>
+    </header>
+
+    <div class="user-stats">
+      <article class="stat">
+        <span class="stat-label">Nível</span>
+        <strong class="stat-value">{{ user.level }}</strong>
+      </article>
+      <article class="stat">
+        <span class="stat-label">Experiência</span>
+        <strong class="stat-value">{{ user.currentXp }} <span>XP</span></strong>
+      </article>
+    </div>
+
+    <dl class="user-dates">
+      <div class="date-row">
+        <dt>Membro desde</dt>
+        <dd>{{ user.createdAt | date: 'dd/MM/yyyy' }}</dd>
+      </div>
+      <div class="date-row">
+        <dt>Perfil atualizado</dt>
+        <dd>{{ user.updatedAt | date: 'dd/MM/yyyy' }}</dd>
+      </div>
+    </dl>
+  }
+</section>
