@@ -1,0 +1,157 @@
+@use '../../../../styles/variables.scss' as *;
+
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 18px 20px;
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.3);
+  border-radius: 12px;
+  background-color: rgba($color: $third-color, $alpha: 0.9);
+  transition: border-color 160ms ease, background-color 160ms ease;
+
+  &:hover {
+    border-color: rgba($color: $secondary-color, $alpha: 0.75);
+    background-color: $third-color;
+  }
+
+  &.completed {
+    border-color: rgba($color: $secondary-color, $alpha: 0.18);
+    background-color: rgba($color: $third-color, $alpha: 0.55);
+
+    .task-title {
+      color: rgba($color: $text-color, $alpha: 0.58);
+      text-decoration: line-through;
+    }
+  }
+}
+
+.task-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.task-title {
+  margin: 0;
+  color: $text-color;
+  font-size: clamp(16px, 2vw, $font-size-third);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.task-description {
+  margin: 0;
+  color: rgba($color: $text-color, $alpha: 0.7);
+  font-size: $font-size-primary;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  box-sizing: border-box;
+  padding: 3px 9px;
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.35);
+  border-radius: 999px;
+  color: $text-color;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+
+  &.category {
+    background-color: rgba($color: $secondary-color, $alpha: 0.18);
+  }
+
+  &.difficulty {
+    background-color: rgba($color: $secondary-color, $alpha: 0.08);
+  }
+}
+
+.due-date {
+  color: rgba($color: $text-color, $alpha: 0.65);
+  font-size: 13px;
+}
+
+.task-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba($color: $secondary-color, $alpha: 0.45);
+  border-radius: 9px;
+  color: $text-color;
+  background-color: rgba($color: $secondary-color, $alpha: 0.18);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: $secondary-color;
+    background-color: rgba($color: $secondary-color, $alpha: 0.45);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $text-color;
+    outline-offset: 2px;
+  }
+}
+
+.delete-button {
+  background-color: rgba($color: $text-color, $alpha: 0.06);
+  border-color: rgba($color: $text-color, $alpha: 0.2);
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgba($color: $text-color, $alpha: 0.14);
+    border-color: rgba($color: $text-color, $alpha: 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  .task-card {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .task-actions {
+    gap: 6px;
+  }
+
+  .action-button {
+    width: 36px;
+    height: 36px;
+  }
+}

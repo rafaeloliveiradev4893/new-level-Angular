@@ -1,1 +1,38 @@
-<p>task-card works!</p>
+<article class="task-card" [class.completed]="task.completedAt">
+  <div class="task-info">
+    <h3 class="task-title">{{ task.title }}</h3>
+    @if (task.description) {
+      <p class="task-description">{{ task.description }}</p>
+    }
+    <div class="task-meta">
+      <span class="badge category">{{ task.category }}</span>
+      <span class="badge difficulty">{{ task.difficulty }}</span>
+      @if (task.dueDate) {
+        <span class="due-date">Prazo: {{ task.dueDate | date: 'shortDate' }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="task-actions">
+    <button
+      class="action-button completion-button"
+      type="button"
+      [attr.aria-label]="task.completedAt ? 'Marcar como pendente' : 'Marcar como concluída'"
+      [title]="task.completedAt ? 'Marcar como pendente' : 'Marcar como concluída'"
+      (click)="toggleCompletion()"
+    >
+      <ng-icon [name]="task.completedAt ? 'lucideRotateCcw' : 'lucideCheck'" size="18px" />
+    </button>
+    @if (task.id !== undefined) {
+      <button
+        class="action-button delete-button"
+        type="button"
+        aria-label="Excluir tarefa"
+        title="Excluir tarefa"
+        (click)="requestDeletion()"
+      >
+        <ng-icon name="lucideTrash2" size="18px" />
+      </button>
+    }
+  </div>
+</article>

@@ -5,10 +5,11 @@ import { ApiTask } from '../../../services/task/api-task';
 import { Task } from '../../../model/task-model';
 import { Category } from '../../../enums/category';
 import { Difficulty } from '../../../enums/difficulty';
+import { TaskCard } from '../task-card/task-card';
 
 @Component({
   selector: 'app-task-list',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TaskCard],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
 })
