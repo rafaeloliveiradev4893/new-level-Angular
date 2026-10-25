@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideCheck, lucidePencil, lucideTrash2 } from '@ng-icons/lucide';
 import { Event as CalendarEvent } from '../../../model/event-model';
+import { Difficulty } from '../../../enums/difficulty';
 import {
   categoryLabel as getCategoryLabel,
   difficultyLabel as getDifficultyLabel,
@@ -8,7 +11,8 @@ import {
 
 @Component({
   selector: 'app-events-card',
-  imports: [DatePipe],
+  imports: [DatePipe, NgIcon],
+  providers: [provideIcons({ lucideCheck, lucidePencil, lucideTrash2 })],
   templateUrl: './events-card.html',
   styleUrl: './events-card.scss',
 })
@@ -20,6 +24,7 @@ export class EventsCard {
 
   categoryLabel = getCategoryLabel;
   difficultyLabel = getDifficultyLabel;
+  Difficulty = Difficulty;
 
   get timeRange(): string {
     const start = new Date(this.event.startDate);

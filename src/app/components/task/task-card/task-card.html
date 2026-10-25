@@ -19,15 +19,17 @@
         >
           <ng-icon name="lucideCheck" size="18px" />
         </button>
-        <button
-          class="action-button"
-          type="button"
-          aria-label="Editar tarefa"
-          title="Editar tarefa"
-          (click)="editTask()"
-        >
-          <ng-icon name="lucidePencil" size="18px" />
-        </button>
+        @if (!task.isCompleted) {
+          <button
+            class="action-button"
+            type="button"
+            aria-label="Editar tarefa"
+            title="Editar tarefa"
+            (click)="editTask()"
+          >
+            <ng-icon name="lucidePencil" size="18px" />
+          </button>
+        }
         @if (task.id !== undefined) {
           <button
             class="action-button delete-button"
@@ -44,11 +46,24 @@
 
     <div class="task-meta">
       <span class="badge category">{{ categoryLabel(task.category) }}</span>
-      <span class="badge difficulty">{{ difficultyLabel(task.difficulty) }}</span>
+      <span
+        class="badge difficulty"
+        [class.difficulty-easy]="task.difficulty === Difficulty.Easy"
+        [class.difficulty-medium]="task.difficulty === Difficulty.Medium"
+        [class.difficulty-hard]="task.difficulty === Difficulty.Hard"
+      >
+        {{ difficultyLabel(task.difficulty) }}
+      </span>
       @if (task.dueDate) {
         <span class="due-date">Prazo: {{ task.dueDate | date: 'shortDate' }}</span>
       }
-      <span class="badge status">{{ task.isCompleted ? 'Concluída' : 'Pendente' }}</span>
+      <span
+        class="badge status"
+        [class.status-completed]="task.isCompleted"
+        [class.status-pending]="!task.isCompleted"
+      >
+        {{ task.isCompleted ? 'Concluída' : 'Pendente' }}
+      </span>
     </div>
 
     @if (task.subtasks.length) {
@@ -59,7 +74,7 @@
             <div class="subtask-actions">
               @if (!subtask.isCompleted) {
                 <button
-                  class="action-button subtask-action"
+                  class="action-button subtask-action subtask-done"
                   type="button"
                   [attr.aria-label]="'Concluir subtarefa ' + subtask.title"
                   [title]="'Concluir ' + subtask.title"
@@ -68,15 +83,17 @@
                   <ng-icon name="lucideCheck" size="16px" />
                 </button>
               }
-              <button
-                class="action-button subtask-action"
-                type="button"
-                [attr.aria-label]="'Editar subtarefa ' + subtask.title"
-                [title]="'Editar ' + subtask.title"
-                (click)="editSubtask(subtask)"
-              >
-                <ng-icon name="lucidePencil" size="16px" />
-              </button>
+              @if (!subtask.isCompleted) {
+                <button
+                  class="action-button subtask-action"
+                  type="button"
+                  [attr.aria-label]="'Editar subtarefa ' + subtask.title"
+                  [title]="'Editar ' + subtask.title"
+                  (click)="editSubtask(subtask)"
+                >
+                  <ng-icon name="lucidePencil" size="16px" />
+                </button>
+              }
               <button
                 class="action-button delete-button subtask-action"
                 type="button"

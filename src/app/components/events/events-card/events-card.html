@@ -7,7 +7,13 @@
   <div class="event-content">
     <div class="event-title-row">
       <h4>{{ event.title }}</h4>
-      <span class="event-status">{{ event.isCompleted ? 'Concluído' : 'Agendado' }}</span>
+      <span
+        class="event-status"
+        [class.status-completed]="event.isCompleted"
+        [class.status-pending]="!event.isCompleted"
+      >
+        {{ event.isCompleted ? 'Concluído' : 'Agendado' }}
+      </span>
     </div>
 
     @if (event.description) {
@@ -16,7 +22,11 @@
 
     <div class="event-meta">
       <span>{{ categoryLabel(event.category) }}</span>
-      <span>{{ difficultyLabel(event.difficulty) }}</span>
+      <span
+        [class.difficulty-easy]="event.difficulty === Difficulty.Easy"
+        [class.difficulty-medium]="event.difficulty === Difficulty.Medium"
+        [class.difficulty-hard]="event.difficulty === Difficulty.Hard"
+      >{{ difficultyLabel(event.difficulty) }}</span>
     </div>
 
     @if (event.completedAt) {
@@ -29,29 +39,33 @@
   <div class="event-actions">
     <button
       type="button"
-      class="event-action"
+      class="event-action completion-button"
       [disabled]="event.isCompleted"
       [attr.aria-label]="event.isCompleted ? 'Evento concluído' : 'Concluir evento'"
       [title]="event.isCompleted ? 'Evento concluído' : 'Concluir evento'"
       (click)="complete()"
     >
-      {{ event.isCompleted ? '✓' : 'Concluir' }}
+      <ng-icon name="lucideCheck" size="18px" />
     </button>
-    <button
-      type="button"
-      class="event-action"
-      [attr.aria-label]="'Editar ' + event.title"
-      (click)="edit()"
-    >
-      Editar
-    </button>
+    @if (!event.isCompleted) {
+      <button
+        type="button"
+        class="event-action"
+        [attr.aria-label]="'Editar ' + event.title"
+        [title]="'Editar ' + event.title"
+        (click)="edit()"
+      >
+        <ng-icon name="lucidePencil" size="18px" />
+      </button>
+    }
     <button
       type="button"
       class="event-action delete-action"
       [attr.aria-label]="'Excluir ' + event.title"
+      [title]="'Excluir ' + event.title"
       (click)="delete()"
     >
-      Excluir
+      <ng-icon name="lucideTrash2" size="18px" />
     </button>
   </div>
 </article>

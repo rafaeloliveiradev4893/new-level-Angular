@@ -4,6 +4,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCheck, lucidePencil, lucideTrash2 } from '@ng-icons/lucide';
 import { Task } from '../../../model/task-model';
 import type { Subtask } from '../../../model/subtask-model';
+import { Difficulty } from '../../../enums/difficulty';
 import {
   categoryLabel as getCategoryLabel,
   difficultyLabel as getDifficultyLabel,
@@ -32,9 +33,12 @@ export class TaskCard {
 
   categoryLabel = getCategoryLabel;
   difficultyLabel = getDifficultyLabel;
+  Difficulty = Difficulty;
 
   editTask(): void {
-    this.editRequested.emit(this.task);
+    if (!this.task.isCompleted) {
+      this.editRequested.emit(this.task);
+    }
   }
 
   toggleCompletion(): void {

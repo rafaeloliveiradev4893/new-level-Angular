@@ -43,4 +43,18 @@ describe('EventsCard', () => {
     expect(category.textContent.trim()).toBe('Sem categoria');
     expect(difficulty.textContent.trim()).toBe('Fácil');
   });
+
+  it('should hide the edit button when the event is completed', () => {
+    fixture.componentRef.setInput('event', {
+      ...component.event,
+      isCompleted: true,
+    });
+    fixture.detectChanges();
+
+    const editButton = fixture.nativeElement.querySelector(
+      '[aria-label="Editar Evento teste"]',
+    );
+
+    expect(editButton).toBeNull();
+  });
 });

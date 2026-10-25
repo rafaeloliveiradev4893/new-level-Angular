@@ -76,4 +76,29 @@ describe('TaskCard', () => {
     expect(category.textContent.trim()).toBe('Sem categoria');
     expect(difficulty.textContent.trim()).toBe('Fácil');
   });
+
+  it('should hide the task edit button when the task is completed', () => {
+    fixture.componentRef.setInput('task', { ...task, isCompleted: true });
+    fixture.detectChanges();
+
+    const editButton = fixture.nativeElement.querySelector(
+      '[aria-label="Editar tarefa"]',
+    );
+
+    expect(editButton).toBeNull();
+  });
+
+  it('should hide the subtask edit button when the subtask is completed', () => {
+    fixture.componentRef.setInput('task', {
+      ...task,
+      subtasks: [{ ...task.subtasks[0], isCompleted: true }],
+    });
+    fixture.detectChanges();
+
+    const editButton = fixture.nativeElement.querySelector(
+      '[aria-label="Editar subtarefa Test subtask"]',
+    );
+
+    expect(editButton).toBeNull();
+  });
 });

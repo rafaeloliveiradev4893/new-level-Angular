@@ -28,7 +28,6 @@
   }
 
   &.completed {
-    opacity: 0.72;
     border-left-color: rgba($color: $secondary-color, $alpha: 0.45);
 
     h4 {
@@ -86,6 +85,34 @@
   font-weight: 600;
 }
 
+.event-meta .difficulty-easy,
+.event-meta .difficulty-medium,
+.event-meta .difficulty-hard,
+.event-status.status-pending,
+.event-status.status-completed {
+  border-radius: 999px;
+}
+
+.event-meta .difficulty-easy,
+.event-status.status-pending {
+  border-color: #74c0fc;
+  color: #071b2c;
+  background-color: #74c0fc;
+}
+
+.event-meta .difficulty-medium {
+  border-color: #3282b8;
+  color: $text-color;
+  background-color: #3282b8;
+}
+
+.event-meta .difficulty-hard,
+.event-status.status-completed {
+  border-color: #123e63;
+  color: $text-color;
+  background-color: #123e63;
+}
+
 .event-description {
   margin: 7px 0 0;
   color: rgba($color: $text-color, $alpha: 0.72);
@@ -115,14 +142,19 @@
 }
 
 .event-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
   min-height: 34px;
-  padding: 6px 9px;
+  padding: 0;
   border: 1px solid rgba($color: $secondary-color, $alpha: 0.36);
   border-radius: 7px;
   color: $text-color;
   background-color: rgba($color: $secondary-color, $alpha: 0.14);
   font: inherit;
-  font-size: 12px;
   cursor: pointer;
 
   &:hover:not(:disabled),
@@ -133,6 +165,18 @@
   &:disabled {
     opacity: 0.55;
     cursor: not-allowed;
+  }
+}
+
+.event-action.completion-button {
+  border-color: #74c0fc;
+  color: #071b2c;
+  background-color: #74c0fc;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    border-color: #a5d8ff;
+    background-color: #a5d8ff;
   }
 }
 

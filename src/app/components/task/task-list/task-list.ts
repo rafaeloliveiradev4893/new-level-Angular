@@ -70,6 +70,7 @@ export class TaskList implements OnInit {
   }
 
   editTask(task: Task): void {
+    if (task.isCompleted) return;
     this.error.set(null);
     this.editingTaskId.set(task.id);
     this.newTask.set({

@@ -104,6 +104,24 @@
   }
 }
 
+.badge.difficulty-easy {
+  border-color: #74c0fc;
+  color: #071b2c;
+  background-color: #74c0fc;
+}
+
+.badge.difficulty-medium {
+  border-color: #3282b8;
+  color: $text-color;
+  background-color: #3282b8;
+}
+
+.badge.difficulty-hard {
+  border-color: #123e63;
+  color: $text-color;
+  background-color: #123e63;
+}
+
 .due-date {
   color: rgba($color: $text-color, $alpha: 0.65);
   font-size: 13px;
@@ -111,6 +129,18 @@
 
 .badge.status {
   background-color: rgba($color: $secondary-color, $alpha: 0.08);
+}
+
+.badge.status-pending {
+  border-color: #74c0fc;
+  color: #071b2c;
+  background-color: #74c0fc;
+}
+
+.badge.status-completed {
+  border-color: #123e63;
+  color: $text-color;
+  background-color: #123e63;
 }
 
 .task-timestamps {
@@ -193,6 +223,30 @@
   &:focus-visible {
     outline: 2px solid $text-color;
     outline-offset: 2px;
+  }
+}
+
+.action-button.completion-button {
+  border-color: #74c0fc;
+  color: #071b2c;
+  background-color: #74c0fc;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    border-color: #a5d8ff;
+    background-color: #a5d8ff;
+  }
+}
+
+.action-button.subtask-done {
+    border-color: #74c0fc;
+  color: #071b2c;
+  background-color: #74c0fc;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    border-color: #a5d8ff;
+    background-color: #a5d8ff;
   }
 }
 
