@@ -17,7 +17,7 @@
       </div>
     } @else {
       @if (auth.error$ | async; as error) {
-        <p class="error">Erro: {{ error.message }}</p>
+        <p class="error app-error-message" role="alert">Erro: {{ error.message }}</p>
       }
       <app-auth-button/>
     }

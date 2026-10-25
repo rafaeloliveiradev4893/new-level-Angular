@@ -11,6 +11,29 @@
         <span class="due-date">Prazo: {{ task.dueDate | date: 'shortDate' }}</span>
       }
       <span class="badge status">{{ task.isCompleted ? 'Concluída' : 'Pendente' }}</span>
+      <div class="task-actions">
+        <button
+          class="action-button completion-button"
+          type="button"
+          [attr.aria-label]="task.isCompleted ? 'Tarefa concluída' : 'Marcar como concluída'"
+          [title]="task.isCompleted ? 'Tarefa concluída' : 'Marcar como concluída'"
+          [disabled]="task.isCompleted"
+          (click)="toggleCompletion()"
+        >
+          <ng-icon name="lucideCheck" size="18px" />
+        </button>
+        @if (task.id !== undefined) {
+          <button
+            class="action-button delete-button"
+            type="button"
+            aria-label="Excluir tarefa"
+            title="Excluir tarefa"
+            (click)="requestDeletion()"
+          >
+            <ng-icon name="lucideTrash2" size="18px" />
+          </button>
+        }
+      </div>
     </div>
 
     @if (task.subtasks.length) {
@@ -56,27 +79,5 @@
     </div>
   </div>
 
-  <div class="task-actions">
-    <button
-      class="action-button completion-button"
-      type="button"
-      [attr.aria-label]="task.isCompleted ? 'Tarefa concluída' : 'Marcar como concluída'"
-      [title]="task.isCompleted ? 'Tarefa concluída' : 'Marcar como concluída'"
-      [disabled]="task.isCompleted"
-      (click)="toggleCompletion()"
-    >
-      <ng-icon name="lucideCheck" size="18px" />
-    </button>
-    @if (task.id !== undefined) {
-      <button
-        class="action-button delete-button"
-        type="button"
-        aria-label="Excluir tarefa"
-        title="Excluir tarefa"
-        (click)="requestDeletion()"
-      >
-        <ng-icon name="lucideTrash2" size="18px" />
-      </button>
-    }
-  </div>
+
 </article>

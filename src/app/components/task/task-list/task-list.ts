@@ -10,6 +10,7 @@ import type { SubtaskAction } from '../task-card/task-card';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePlus } from '@ng-icons/lucide';
 import { XpNotification } from '../../../services/xp-notification';
+import { getApiErrorMessage } from '../../../utils/api-error-message';
 
 @Component({
   selector: 'app-task-list',
@@ -85,7 +86,7 @@ export class TaskList implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set('Erro ao carregar tarefas');
+        this.error.set(getApiErrorMessage(err, 'Erro ao carregar tarefas.'));
         this.loading.set(false);
         console.error(err);
       },
@@ -118,7 +119,7 @@ export class TaskList implements OnInit {
         this.closeTaskForm();
       },
       error: (err) => {
-        this.error.set('Erro ao criar tarefa');
+        this.error.set(getApiErrorMessage(err, 'Erro ao criar tarefa.'));
         this.loading.set(false);
         console.error(err);
       },
@@ -150,7 +151,7 @@ export class TaskList implements OnInit {
       },
       error: (err) => {
         this.pendingCompletionTaskIds.delete(task.id);
-        this.error.set('Erro ao atualizar tarefa');
+        this.error.set(getApiErrorMessage(err, 'Erro ao concluir tarefa.'));
         console.error(err);
       },
     });
@@ -162,7 +163,7 @@ export class TaskList implements OnInit {
         this.tasks.update((t) => t.filter((tk) => tk.id !== id));
       },
       error: (err) => {
-        this.error.set('Erro ao deletar tarefa');
+        this.error.set(getApiErrorMessage(err, 'Erro ao excluir tarefa.'));
         console.error(err);
       },
     });
@@ -189,7 +190,7 @@ export class TaskList implements OnInit {
       },
       error: (err) => {
         this.pendingCompletionTaskIds.delete(taskId);
-        this.error.set('Erro ao concluir subtarefa');
+        this.error.set(getApiErrorMessage(err, 'Erro ao concluir subtarefa.'));
         console.error(err);
       },
     });
@@ -199,7 +200,7 @@ export class TaskList implements OnInit {
     this.apiTask.deleteSubtask(taskId, subtaskId).subscribe({
       next: (updated) => this.replaceTask(updated),
       error: (err) => {
-        this.error.set('Erro ao remover subtarefa');
+        this.error.set(getApiErrorMessage(err, 'Erro ao remover subtarefa.'));
         console.error(err);
       },
     });

@@ -2,7 +2,7 @@
   @if (loading()) {
     <p class="status-message" role="status">Carregando perfil...</p>
   } @else if (error()) {
-    <p class="status-message error" role="alert">{{ error() }}</p>
+    <p class="status-message error app-error-message" role="alert">{{ error() }}</p>
   } @else if (user(); as u) {
     <header class="user-header">
       <div class="user-avatar" aria-hidden="true">

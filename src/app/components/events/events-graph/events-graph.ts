@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { ApiEvent } from '../../../services/event/api-event';
 import { Event as CalendarEvent } from '../../../model/event-model';
 import { EventsList } from '../events-list/events-list';
+import { getApiErrorMessage } from '../../../utils/api-error-message';
 
 interface CalendarDay {
   date: Date;
@@ -117,7 +118,9 @@ export class EventsGraph implements OnInit {
         },
         error: (err) => {
           if (requestId !== this.periodRequestId) return;
-          this.error.set('Não foi possível carregar os eventos deste período.');
+          this.error.set(
+            getApiErrorMessage(err, 'Não foi possível carregar os eventos deste período.'),
+          );
           this.loading.set(false);
           console.error('Erro ao carregar eventos:', err);
         },

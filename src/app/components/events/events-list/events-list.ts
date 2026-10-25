@@ -20,6 +20,7 @@ import { Category } from '../../../enums/category';
 import { Difficulty } from '../../../enums/difficulty';
 import { EventsCard } from '../events-card/events-card';
 import { XpNotification } from '../../../services/xp-notification';
+import { getApiErrorMessage } from '../../../utils/api-error-message';
 
 @Component({
   selector: 'app-events-list',
@@ -106,7 +107,9 @@ export class EventsList implements OnInit, OnChanges {
         this.saving.set(false);
       },
       error: (err) => {
-        this.error.set('Não foi possível carregar o evento para edição.');
+        this.error.set(
+          getApiErrorMessage(err, 'Não foi possível carregar o evento para edição.'),
+        );
         this.saving.set(false);
         console.error('Erro ao buscar evento:', err);
       },
@@ -156,7 +159,7 @@ export class EventsList implements OnInit, OnChanges {
         this.eventsChanged.emit();
       },
       error: (err) => {
-        this.error.set('Não foi possível salvar o evento.');
+        this.error.set(getApiErrorMessage(err, 'Não foi possível salvar o evento.'));
         this.saving.set(false);
         console.error('Erro ao salvar evento:', err);
       },
@@ -179,7 +182,7 @@ export class EventsList implements OnInit, OnChanges {
       },
       error: (err) => {
         this.pendingCompletionEventIds.delete(event.id);
-        this.error.set('Não foi possível concluir o evento.');
+        this.error.set(getApiErrorMessage(err, 'Não foi possível concluir o evento.'));
         console.error('Erro ao concluir evento:', err);
       },
     });
@@ -192,7 +195,7 @@ export class EventsList implements OnInit, OnChanges {
         this.eventsChanged.emit();
       },
       error: (err) => {
-        this.error.set('Não foi possível excluir o evento.');
+        this.error.set(getApiErrorMessage(err, 'Não foi possível excluir o evento.'));
         console.error('Erro ao excluir evento:', err);
       },
     });
@@ -222,7 +225,9 @@ export class EventsList implements OnInit, OnChanges {
         },
         error: (err) => {
           if (requestId !== this.dayRequestId) return;
-          this.error.set('Não foi possível carregar os eventos deste dia.');
+          this.error.set(
+            getApiErrorMessage(err, 'Não foi possível carregar os eventos deste dia.'),
+          );
           this.loading.set(false);
           console.error('Erro ao carregar eventos do dia:', err);
         },

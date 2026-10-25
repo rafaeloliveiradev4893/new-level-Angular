@@ -19,7 +19,7 @@
     </header>
 
     @if (error()) {
-      <p class="calendar-error" role="alert">{{ error() }}</p>
+      <p class="calendar-error app-error-message" role="alert">{{ error() }}</p>
     }
 
     <div class="calendar-grid" [attr.aria-busy]="loading()">

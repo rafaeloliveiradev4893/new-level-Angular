@@ -2,7 +2,7 @@
   <h2>Minhas Tarefas</h2>
 
   @if (error() && !taskFormOpen()) {
-    <div class="error">{{ error() }}</div>
+    <div class="error app-error-message" role="alert">{{ error() }}</div>
   }
 
   @if (loading() && tasks().length === 0) {
@@ -49,7 +49,7 @@
         </div>
 
         @if (error()) {
-          <div class="error" role="alert">{{ error() }}</div>
+          <div class="error app-error-message" role="alert">{{ error() }}</div>
         }
 
         <form (ngSubmit)="addTask()" class="task-form">

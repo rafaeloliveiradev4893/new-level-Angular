@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { User } from '../../../model/user-model';
 import { Users } from '../../../services/user/users';
+import { getApiErrorMessage } from '../../../utils/api-error-message';
 
 @Component({
   selector: 'app-user-info',
@@ -31,7 +32,9 @@ export class UserInfo implements OnInit {
         this.loading.set(false);
       },
       error: (error) => {
-        this.error.set('Não foi possível carregar as informações do perfil.');
+        this.error.set(
+          getApiErrorMessage(error, 'Não foi possível carregar as informações do perfil.'),
+        );
         this.loading.set(false);
         console.error('Erro ao buscar usuário:', error);
       },
