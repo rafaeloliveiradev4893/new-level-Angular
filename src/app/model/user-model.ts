@@ -1,6 +1,14 @@
+// models/user.ts
+import { Atributos } from "./atributos-model"
+import { AtributosXp } from "./atributos-model"
+
 export interface User {
-  name: string,
+  auth0Id: string,
+  name: string | null,
   level: number,
-  currentXp: number,
+  atributos: Atributos,
+  atributosXp: AtributosXp,
   createdAt: string,
+  updatedAt: string,
+  version: number
 }
