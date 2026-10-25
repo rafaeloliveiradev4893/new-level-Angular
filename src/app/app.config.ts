@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       httpInterceptor: {
         allowedList: [
           {
-            uri: 'http://localhost:8090/api/*', // URL API
+            uri: 'http://localhost:8080/api/*', // URL API
             tokenOptions: {
               authorizationParams: {
                 audience: 'https://newlevelauth.com'

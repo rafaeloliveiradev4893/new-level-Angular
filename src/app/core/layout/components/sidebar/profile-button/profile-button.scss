@@ -4,9 +4,9 @@
 .profile-container {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 5px;
-  background-color: #ff6b6b;
+  gap: 10px;
+  padding: 10px 6px;
+  background-color: rgba($color: $text-color, $alpha: 0.06);
   border-radius: 10px;
 }
 
@@ -64,4 +64,30 @@
   color: #ff6b6b;
   padding: 8px;
   font-size: 14px;
+}
+
+.profile-content.compact {
+  .profile-container {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 4px;
+  }
+
+  .profile-info {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-content.compact {
+    .profile-container {
+      flex-direction: row;
+      gap: 10px;
+      padding: 10px 6px;
+    }
+
+    .profile-info {
+      display: flex;
+    }
+  }
 }

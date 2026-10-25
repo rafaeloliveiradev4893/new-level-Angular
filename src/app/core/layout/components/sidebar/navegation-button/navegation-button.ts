@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,15 +8,15 @@ import { Router } from '@angular/router';
   styleUrl: './navegation-button.scss',
 })
 export class NavegationButton {
-
   private router = inject(Router);
 
-  @Input() text: string = "";
-  @Input() src = "";
-  @Input() alt = "";
-  @Input() route = "";
+  @Input() label = '';
+  @Input() collapsed = false;
+  @Input() route = '';
+  @Output() selected = new EventEmitter<void>();
 
   navigate(): void {
     this.router.navigate([this.route]);
+    this.selected.emit();
   }
 }

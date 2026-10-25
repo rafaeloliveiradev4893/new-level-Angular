@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsButton } from './settings-button';
+import { EventosPage } from './eventos-page';
 
-describe('SettingsButton', () => {
-  let component: SettingsButton;
-  let fixture: ComponentFixture<SettingsButton>;
+describe('EventosPage', () => {
+  let component: EventosPage;
+  let fixture: ComponentFixture<EventosPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsButton],
+      imports: [EventosPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SettingsButton);
+    fixture = TestBed.createComponent(EventosPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,34 +1,84 @@
-<div class="sidebar">
-  <div class="content">
-    <div class="logo">
-      <img src="logo.svg" alt="logo"><span>New Level</span>
+<div class="sidebar-shell">
+  @if (!isMobileOpen) {
+    <button
+      class="mobile-menu-toggle"
+      type="button"
+      aria-label="Abrir menu"
+      aria-controls="app-sidebar"
+      [attr.aria-expanded]="isMobileOpen"
+      (click)="toggleMobileMenu()"
+    >
+      <ng-icon name="lucideMenu" size="24px" />
+    </button>
+  }
+
+  @if (isMobileOpen) {
+    <button
+      class="sidebar-backdrop"
+      type="button"
+      aria-label="Fechar menu"
+      (click)="closeMobileMenu()"
+    ></button>
+  }
+
+  <aside
+    id="app-sidebar"
+    class="sidebar"
+    [class.collapsed]="isCollapsed"
+    [class.mobile-open]="isMobileOpen"
+    (keydown.escape)="closeMobileMenu()"
+  >
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <a class="logo" routerLink="/" aria-label="New Level - Visão Geral" (click)="closeMobileMenu()">
+          <img src="logo.svg" alt="">
+          <span>New Level</span>
+        </a>
+        <button
+          class="collapse-toggle"
+          type="button"
+          [attr.aria-label]="isCollapsed ? 'Expandir menu' : 'Recolher menu'"
+          [attr.aria-expanded]="!isCollapsed"
+          (click)="toggleCollapsed()"
+        >
+          <ng-icon [name]="isCollapsed ? 'lucideChevronRight' : 'lucideChevronLeft'" size="20px" />
+        </button>
+        <button
+          class="mobile-close-toggle"
+          type="button"
+          aria-label="Fechar menu"
+          (click)="closeMobileMenu()"
+        >
+          <ng-icon name="lucideX" size="24px" />
+        </button>
+      </div>
+
+      <span class="menu-txt">Menu</span>
+      <nav class="menu-navegacao" aria-label="Navegação principal">
+        <app-navegation-button route="/" label="Visão Geral" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideLayoutDashboard" size="24px" />
+          <span>Visão Geral</span>
+        </app-navegation-button>
+
+        <app-navegation-button route="/Estatisticas" label="Estatísticas" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideChartNoAxesColumnIncreasing" size="24px" />
+          <span>Estatísticas</span>
+        </app-navegation-button>
+
+        <app-navegation-button route="/Tarefas" label="Tarefas" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideListChecks" size="24px" />
+          <span>Tarefas</span>
+        </app-navegation-button>
+
+        <app-navegation-button route="/Eventos" label="Eventos" [collapsed]="isCollapsed" (selected)="closeMobileMenu()">
+          <ng-icon name="lucideCalendarDays" size="24px" />
+          <span>Eventos</span>
+        </app-navegation-button>
+      </nav>
+
+      <div class="menu-config">
+        <app-profile-button [compact]="isCollapsed" />
+      </div>
     </div>
-    <span class="menu-txt">
-      Menu
-    </span>
-    <div class="menu-navegacao">
-      <app-navegation-button
-        text="Visão Geral"
-        src="Visão Geral.svg"
-        alt="Visão Geral icon"
-        route="/"
-      />
-      <app-navegation-button
-        text="Estatisticas"
-        src="Visão Geral.svg"
-        alt="Visão Geral icon"
-        route="/Estatisticas"
-      />
-      <app-navegation-button
-        text="Tarefas"
-        src="Visão Geral.svg"
-        alt="Visão Geral icon"
-        route="/Tarefas"
-      />
-    </div>
-    <div class="menu-config">
-      <app-settings-button/>
-      <app-profile-button/>
-    </div>
-  </div>
+  </aside>
 </div>

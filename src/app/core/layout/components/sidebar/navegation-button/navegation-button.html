@@ -1,7 +1,9 @@
-<div class="sidebar-button" (click)="navigate()">
-  <div class="box"></div>
-
-  <img [src]="src" [alt]="alt">
-
-  <span>{{ text }}</span>
-</div>
+<button
+  class="sidebar-button"
+  [class.icon-only]="collapsed"
+  [attr.aria-label]="collapsed ? label : null"
+  type="button"
+  (click)="navigate()"
+>
+  <ng-content></ng-content>
+</button>
