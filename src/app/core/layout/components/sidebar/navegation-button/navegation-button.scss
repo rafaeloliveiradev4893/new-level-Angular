@@ -1,3 +1,5 @@
+@use '../../../../../../styles/variables.scss' as *;
+
 .sidebar-button {
   display: flex;
   align-items: center;
@@ -15,9 +17,19 @@
   cursor: pointer;
   transition: background-color 150ms ease, color 150ms ease;
 
+  &.active {
+    background-color: rgba($secondary-color, 0.28);
+    box-shadow: inset 3px 0 0 $secondary-color;
+  }
+
   &:hover,
   &:focus-visible {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &.active:hover,
+  &.active:focus-visible {
+    background-color: rgba($secondary-color, 0.38);
   }
 
   &:focus-visible {

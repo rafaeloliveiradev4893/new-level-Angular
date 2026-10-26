@@ -2,6 +2,10 @@
   class="sidebar-button"
   [class.icon-only]="collapsed"
   [attr.aria-label]="collapsed ? label : null"
+  [routerLink]="route"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  ariaCurrentWhenActive="page"
   type="button"
   (click)="navigate()"
 >
