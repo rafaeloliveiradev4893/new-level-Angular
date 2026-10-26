@@ -4,6 +4,7 @@
   position: fixed;
   inset: 0;
   z-index: 1200;
+  pointer-events: none;
 }
 
 .welcome-backdrop {
@@ -16,6 +17,7 @@
   padding: 20px;
   background-color: rgba(0, 8, 12, 0.82);
   backdrop-filter: blur(6px);
+  pointer-events: auto;
 }
 
 .welcome-modal {
