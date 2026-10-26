@@ -1,8 +1,7 @@
 @if (auth.isLoading$ | async) {
-  <span>Loading...</span>
+  <span>Carregando...</span>
 } @else {
-  @if ((auth.isAuthenticated$ | async) && (auth.user$ | async); as user) {
-
+  @if ((auth.isAuthenticated$ | async) && (auth.user$ | async)) {
     @if (userInf) {
       <div class="info">
         <span>{{ userInf.name }}, </span>
@@ -11,14 +10,15 @@
     }
 
   } @else {
-
-    @if (auth.error$ | async; as error) {
-    }
-
-    <button (click)="auth.loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } })" class="signup-button">
+    <button type="button" (click)="auth.loginWithRedirect()" class="sign-in-button">
       Entrar
     </button>
-    <button (click)="auth.loginWithRedirect()" class="sign-in-button">Cadastrar-se</button>
-
-    }
+    <button
+      type="button"
+      (click)="auth.loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } })"
+      class="signup-button"
+    >
+      Criar conta
+    </button>
+  }
 }

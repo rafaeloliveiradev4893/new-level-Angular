@@ -1,0 +1,58 @@
+@if (!(auth.isLoading$ | async) && !(auth.isAuthenticated$ | async)) {
+  <div class="welcome-backdrop">
+    <section
+      class="welcome-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="welcome-title"
+      aria-describedby="welcome-description"
+    >
+      <p class="welcome-eyebrow">New Level</p>
+      <h1 id="welcome-title">Sua jornada começa aqui</h1>
+      <p id="welcome-description" class="welcome-description">
+        Organize tarefas e eventos, conclua seus objetivos e acompanhe sua evolução
+        ganhando experiência nos atributos do seu perfil.
+      </p>
+
+      <div class="welcome-features">
+        <p><strong>Tarefas e eventos</strong><span>Planeje sua rotina e acompanhe suas conclusões.</span></p>
+        <p><strong>Progresso</strong><span>Ganhe XP ao concluir atividades e evolua seus atributos.</span></p>
+      </div>
+
+      <div class="terms">
+        <h2>Termos de uso</h2>
+        <p>
+          Use a aplicação para organizar sua rotina. As tarefas, eventos e o
+          progresso que você registrar ficam associados à sua conta.
+        </p>
+        <label>
+          <input
+            type="checkbox"
+            [checked]="termsAccepted()"
+            (change)="acceptTerms($event)"
+          />
+          <span>Li e aceito os termos de uso.</span>
+        </label>
+      </div>
+
+      <div class="welcome-actions">
+        <button
+          type="button"
+          class="login-button"
+          [disabled]="!termsAccepted()"
+          (click)="login()"
+        >
+          Entrar
+        </button>
+        <button
+          type="button"
+          class="signup-button"
+          [disabled]="!termsAccepted()"
+          (click)="signUp()"
+        >
+          Criar conta
+        </button>
+      </div>
+    </section>
+  </div>
+}

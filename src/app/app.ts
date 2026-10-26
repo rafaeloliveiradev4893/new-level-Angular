@@ -4,10 +4,11 @@ import { Users } from './services/user/users';
 import { AuthService } from '@auth0/auth0-angular';
 import { Layout } from './core/layout/layout';
 import { XpNotification } from './components/xp-notification/xp-notification';
+import { WelcomeModal } from './components/welcome-modal/welcome-modal';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Layout, XpNotification],
+  imports: [RouterOutlet, Layout, XpNotification, WelcomeModal],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

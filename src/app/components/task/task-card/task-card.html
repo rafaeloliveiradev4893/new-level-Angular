@@ -110,10 +110,6 @@
     }
 
     <div class="task-timestamps">
-      <span>Criada em: {{ task.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
-      @if (task.updatedAt) {
-        <span>Atualizada em: {{ task.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
-      }
       @if (task.completedAt) {
         <span>Concluída em: {{ task.completedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
       }
