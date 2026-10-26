@@ -1,6 +1,6 @@
 const productionApiUrl = 'https://new-level-spring.onrender.com';
 const localApiUrl = 'http://localhost:8080';
-const isProduction = false;
+const isProduction = true;
 
 export const environment = {
   production: isProduction,
