@@ -1,59 +1,70 @@
-# NewLevelAngular
+# New Level
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.22.
+O **New Level** é uma aplicação web gamificada para organizar tarefas, acompanhar eventos e visualizar o progresso do usuário. A interface reúne essas áreas em um painel com navegação lateral; recursos como guilda, NPCs, conquistas, loja e amigos estão disponíveis como páginas em desenvolvimento.
 
-## Development server
+## Funcionalidades
 
-To start a local development server, run:
+- Visão geral do progresso e das atividades.
+- Gerenciamento de tarefas.
+- Consulta de eventos.
+- Estatísticas e informações do usuário.
+- Autenticação integrada ao Auth0.
+- Interface responsiva com navegação lateral.
 
-```bash
-ng serve
-```
+## Tecnologias
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Angular 21 e TypeScript
+- SCSS
+- Auth0 para autenticação
+- Ng Icons com ícones Lucide
+- Vitest para testes unitários
 
-## Code scaffolding
+## Pré-requisitos
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js compatível com Angular 21.
+- npm.
 
-```bash
-ng generate component component-name
-```
+## Como executar
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Instale as dependências e inicie o servidor de desenvolvimento:
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Abra [http://localhost:4200](http://localhost:4200). A aplicação recarrega automaticamente quando os arquivos são alterados.
 
-## Running unit tests
+O endereço da API é definido em `src/environments/environment.ts`. Para usar uma API local, configure a URL correspondente nesse arquivo. A autenticação depende da configuração do Auth0 em `src/app/app.config.ts`.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Scripts disponíveis
 
-```bash
-ng test
+| Comando | Descrição |
+| --- | --- |
+| `npm start` | Inicia o servidor de desenvolvimento. |
+| `npm run build` | Gera a build de produção em `dist/`. |
+| `npm run watch` | Gera a build de desenvolvimento e observa alterações. |
+| `npm test` | Executa os testes unitários. |
+
+## Estrutura do projeto
+
+```text
+src/app/
+├── components/   # Componentes reutilizáveis da aplicação
+├── core/         # Layout, navegação e autenticação
+├── pages/        # Páginas acessíveis pelas rotas
+├── services/     # Integrações com a API e serviços
+├── model/        # Modelos de dados
+└── utils/        # Funções utilitárias
 ```
 
-## Running end-to-end tests
+## Rotas principais
 
-For end-to-end (e2e) testing, run:
+| Caminho | Página |
+| --- | --- |
+| `/` | Visão Geral |
+| `/Estatisticas` | Estatísticas |
+| `/Tarefas` | Tarefas |
+| `/Eventos` | Eventos |
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+As páginas de Guilda, NPCs, Conquistas, Loja e Amigos estão representadas por telas de conteúdo em desenvolvimento.
